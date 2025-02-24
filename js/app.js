@@ -12,54 +12,171 @@
 
 //  ============================ 1. Initialize Game Data   ====================================
 
-// 1. Initialize player data : name, currentQuestionIndex, score, moneyEarned, lifelines
+// 1. Initialize player data : name
+
+const playerName = document.getElementById('name');
 
 // 2. Money Ladder : array of numbers for each questionIndex upto top prize
 
-// 3. create a list of questions :
+const moneyChart = [
+    {
+        id: 1,
+        price: 0,
+    },
+    {
+        id: 2,
+        price: 100
+    },
+    {
+        id: 3,
+        price: 200
+    },
+    {
+        id: 4,
+        price: 300
+    },
+    {
+        id: 5,
+        price: 500
+    },
+    {
+        id: 6,
+        price: 1000
+    },
+    {
+        id: 7,
+        price: 2000
+    },
+    {
+        id: 8,
+        price: 4000
+    },
+    {
+        id: 9,
+        price: 8000
+    },
+    {
+        id: 10,
+        price: 16000
+    },
+    {
+        id: 11,
+        price: 32000
+    },
+    {
+        id: 12,
+        price: 64000
+    },
+    {
+        id: 13,
+        price: 125000
+    },
+    {
+        id: 14,
+        price: 250000
+    },
+    {
+        id: 15,
+        price: 500000
+    },
+    {
+        id: 16,
+        price: 1000000
+    }
 
-/* question : "statement";
-    answers : ["4 options of possible answers" ] ;
-    correct answer : Index of correct answer ; 
-*/
+]
+
+// 3. create a list of questions :
+let questionIndex = 0;
+let quiz = [];
+//fetch questions from questions.json
+fetch("questions.json")
+    .then(response => response.json())
+    .then (data => {
+        quiz = data;
+        console.log(quiz);
+        startGame();
+    })
+    .catch(error =>console.error(error));
+
+// generateSounds
+let mainThemePlay = "";
+let wrongPlay = "";
+let correctPlay = "";
+let callPlay = "";
+let fifty50Play = "";
+let audiencePlay = "";
+let inGamePlay = "";
+
+//selectors
+let questionText = document.querySelector(".question-text");
+let options = document.querySelectorAll(".option");
+let nextQuestionBtn = document.querySelector(".next-question");
+// let amountWon = document.querySelector(".amount-won");
 
 //  ============================ 2. Function startGame()   ===================================
 
-/* FUNCTION startGame()
-    PLAY backgroundMusic;
-    CALL loadQuestion();
-    CALL startTimer();
-*/
+function startGame(){
+    loadQuestion();
+    startTimer();
+    // mainThemePlay.play();
+};
 
 //  ============================  3. Load the question   ======================================
 
-/* 
-    loadQuestion();
-    display currentQuestion;
-    display answer options;
-    reset timer to 30sec;
+/*  TODO:
     show available lifelines; 
 */
+function loadQuestion() {
+  if (questionIndex < quiz.length) {
+    questionText.innerText = quiz[questionIndex].question;
+    console.log(questionText);
+    options.forEach((option, index) => {
+      option.innerText = quiz[questionIndex].options[index];
+      
+    });
+  }else {
+    //end game and show result
+    endGame();
+  }
+}
+loadQuestion();
 
 //  ============================   4. startTimer()  ===========================================
 
-/*
-    set to 30sec;
-    loop every 1 sec ;
-    decrement by 1;
-    display updated time;
-    if timer is 0 then call timesUp() function;
-*/
+function startTimer(){
+    let timeLeft = 30;
+    const timer = setInterval(function(){
+        document.getElementById('thirtySec').innerText = timeLeft;
+        timeLeft-- ;
+        if( timeLeft < 0) {
+            clearInterval(timer);
+            // wrongPlay.play();
+            endGame();
+        }
+    }, 1000); //updates every second
+}
+function afterThirtySec() {
+    console.log("time's up");
+}
+startTimer(afterThirtySec);
 
 //  ============================   5. Answer Selection   ======================================
 
-/*
-    function chooseAnswer(answerIdx);
-    check if selected answer index is equal to correct answer index, return true, green color;
-    if not equal return false, red color, game over, reset game;
-    if chooses lifelines then call lifelines() function;
-    disable chosen lifeline;
-*/
+function checkAnswer(event) {
+  const selectedOption = event.target;
+  if (selectedOption.classList.contains("option")) {
+    if (selectedOption.innerText === quiz[questionIndex].answer) {
+    //   correctPlay.play(); //sound
+      questionIndex++;
+      loadQuestion();
+    } else if (selectedOption.innerText !== quiz[questionIndex].answer) {
+    //   wrongPlay.play();
+      endGame();
+    } // need to add lifeline logic - if chooses lifelines then call lifelines() function;
+    //disable chosen lifeline;
+  }
+}
 
 //  ============================ 6. lifelines() function   ======================================
 
@@ -95,7 +212,9 @@
     DISPLAY score
     PLAY gameEndSound
     DISPLAY restart 
-*/
+*/function endGame(){
+ console.log("game over!");
+};
 
 //  ============================ 9. Restart Game function  =====================================
 
@@ -114,6 +233,8 @@
     5. for ending game
 
 */
+//event bubbling- adding on parent options
+document.getElementById('optionsId').addEventListener('click', checkAnswer);
 
  //  ============================ 11. Event Handlers  =========================================
 /*

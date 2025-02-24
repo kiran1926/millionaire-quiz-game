@@ -6,59 +6,76 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Who Wants To Be A Millionaire</title>
     <link rel="stylesheet" href="css/style.css">
+    <script defer src="js/app.js"></script>
 </head>
 
 <body>
-    <div class="bg-image">
-        <main class="container">
-            <!-- Game Logo -->
-            <div class="logo">
-                <img src="img/logo.png" alt="logo image of the game">
+    <div class="container">
+        <div class="container-left">
+            <div class="main">
+                <!-- Game Logo -->
+                <div class="logo">
+                    <img class="logo-image" src="img/logo.png" alt="logo image of the game">
+                </div>
+                <div class="question-container">
+                    <div class="timer-lifelines">
+                        <!-- Timer -->
+                        <div class="timer" id="thirtySec">30</div>
+                        <!-- Lifelines -->
+                        <div class="lifelines">
+                            <div class="lifeline-fifty-fifty" id="fifty-fifty"><img class="lifeline-icon"
+                                    src="img/fifty-fifty.webp"></div>
+                            <div class="lifeline-audience-poll" id="audience-poll"><img class="lifeline-icon"
+                                    src="img/audience_poll.webp"></div>
+                            <div class="lifeline-phone-a-friend" id="phone-a-friend"><img class="lifeline-icon"
+                                    src="img/phone-a-friend.webp"></div>
+                        </div>
+                    </div>
+
+                    <!-- Question Box -->
+                    <section class="question-box">
+                        <div class="question-text" id="question">Which planet is known as the Red Planet?</div>
+                    </section>
+
+                    <!-- Answer Options -->
+                    <section class="options" id="optionsId">
+                        <div class="option" id="0"><span>A.</span> Earth</div>
+                        <div class="option" id="1"><span>B.</span> Mars</div>
+                        <div class="option" id="2"><span>C.</span> Venus</div>
+                        <div class="option" id="3"><span>D.</span> Jupiter</div>
+                    </section>
+                </div>
+                <div>
+                    <button type="button" class="next-question">Next Question</button>
+                </div>
             </div>
-            <!-- Timer -->
-            <div class="timer">30</div>
+        </div>
 
-            <!-- Question Box -->
-            <section class="question-box">
-                <div class="question-text">Which planet is known as the Red Planet?</div>
-            </section>
-
-            <!-- Answer Options -->
-            <section class="options">
-                <div class="option" id="0">A: Earth</div>
-                <div class="option" id="1">B: Mars</div>
-                <div class="option" id="2">C: Venus</div>
-                <div class="option" id="3">D: Jupiter</div>
-            </section>
-
-            <!-- Lifelines -->
-            <div class="lifelines">
-                <div class="lifeline">50:50</div>
-                <div class="lifeline">Ask the Audience</div>
-                <div class="lifeline">Phone a Friend</div>
+        <div class="container-right">
+            <div class="side">
+                <!-- Money Ladder -->
+                <div class="money-ladder">
+                    <ul>
+                        <li>$1,000,000</li>
+                        <li>$500,000</li>
+                        <li>$250,000</li>
+                        <li>$125,000</li>
+                        <li>$64,000</li>
+                        <li>$32,000</li>
+                        <li>$16,000</li>
+                        <li>$8,000</li>
+                        <li>$4,000</li>
+                        <li>$2,000</li>
+                        <li>$1,000</li>
+                        <li>$500</li>
+                        <li>$300</li>
+                        <li>$200</li>
+                        <li>$100</li>
+                        <li>$0</li>
+                    </ul>
+                </div>
             </div>
-
-            <!-- Money Ladder -->
-            <aside class="money-ladder">
-                <ul>
-                    <li>$1,000,000</li>
-                    <li>$500,000</li>
-                    <li>$250,000</li>
-                    <li>$125,000</li>
-                    <li>$64,000</li>
-                    <li>$32,000</li>
-                    <li>$16,000</li>
-                    <li>$8,000</li>
-                    <li>$4,000</li>
-                    <li>$2,000</li>
-                    <li>$1,000</li>
-                    <li>$500</li>
-                    <li>$300</li>
-                    <li>$200</li>
-                    <li>$100</li>
-                </ul>
-            </aside>
-        </main>
+        </div>
     </div>
 </body>
 

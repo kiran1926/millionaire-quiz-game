@@ -1,19 +1,23 @@
 body,html {
+    background: url('../img/bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
     color: #fff;
     font-family: Arial, sans-serif;
     text-align: center;
     height: 100%
 }
 
-.bg-image{
-    background: url('../img/bg1.jpg') no-repeat center center fixed;
-    background-size: cover;
-    overflow: hidden;
-    height: 100%;
-    backdrop-filter: blur(5px);
+.container{
+    height: 100vh;
+    width: 100%;
+    display: flex;  /* Flexbox to align left and right sections */
+    justify-content: space-between;
+    padding: 20px;
+    gap: 40px;
 }
 
-img{
+.logo-image{
     width: 400px;
     overflow: hidden;
     border-radius: 50%;
@@ -33,11 +37,27 @@ img{
 
 }
 
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-    position: relative;
+.container-left {
+    flex: 9;
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 100px;
+}
+.main{
+    display: flex;
+    flex-direction: column;
+    width : 90%;
+}
+
+.container-right{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 2;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+
 }
 
 .game-logo img {
@@ -47,38 +67,42 @@ img{
 
 .timer {
     font-size: 2rem;
-    background: #222;
-    border: 2px solid #555;
+    background: purple;
+    border: 2px solid white;
     border-radius: 50%;
     width: 60px;
     height: 60px;
     line-height: 60px;
-    margin: 0 auto;
 }
 
 
 .question-box {
-    background: #0b3d91;
-    border: 2px solid #f2a900;
+    background: #060d53;
+    border: 2px solid white;
     border-radius: 10px;
     padding: 20px;
-    margin: 20px auto;
     width: 80%;
     color: #fff;
     box-shadow: 0 0 10px #333;
+    border-radius: 30px;
+    width: 100%;
+    font-size: x-large;
 }
 
 .options {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 25px;
     margin-top: 20px;
+    padding: 20px;
+    width: 100%;
+    font-size: x-large;
 }
 
 .option {
-    background: #333;
-    border: 2px solid #555;
-    border-radius: 5px;
+    background: #060d53;
+    border: 2px solid rgb(188, 180, 180);
+    border-radius: 30px;
     padding: 10px;
     cursor: pointer;
     transition: background 0.3s;
@@ -92,39 +116,62 @@ img{
 .lifelines {
     display: flex;
     justify-content: center;
-    gap: 15px;
-    margin: 20px 0;
+    gap: 50px;
 }
 
-.lifeline {
-    background: #222;
-    border: 2px solid #444;
-    padding: 10px 15px;
-    border-radius: 5px;
+.lifeline-fifty-fifty, .lifeline-phone-a-friend, .lifeline-audience-poll {
+    display: flex;
+    width: 100px;
+    height: 100px;
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
 }
+
+.lifeline-icon {
+    max-width: 200px;
+    max-height: 200px;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
 
 .lifeline:hover {
     background: #444;
 }
 
 .money-ladder {
-    position: absolute;
-    right: 20px;
-    top: 50px;
-    text-align: right;
+    background-color: #060d53;
 }
 
 .money-ladder ul {
+    padding-top: 200px;
     list-style: none;
-    padding: 0;
-    margin: 0;
     color: #ffcc00;
     font-weight: bold;
 }
 
 .money-ladder li {
-    padding: 5px 0;
+    padding: 10px 0;
+}
+
+.next-question{
+    background: #060d53;
+    border: 2px solid rgb(188, 180, 180);
+    border-radius: 30px;
+    padding: 25px;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fff;
+    margin-top: 30px;
+    width : 30%;
+    font-size: 1.5rem;
+}
+
+.timer-lifelines{
+    margin-top: 40px;
+    display: flex;
+    justify-content:space-between;
+    align-items: center;
 }
