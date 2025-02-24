@@ -1,0 +1,117 @@
+body, html{
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+img{
+    width: 400px;
+    overflow: hidden;
+    border-radius: 50%;
+    animation: golden-shine 2s infinite;
+}
+
+@keyframes golden-shine {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.7);
+  }
+
+}
+
+.container{
+    background: url('../img/bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.title h1 {
+    font-size: 50px;
+    padding: 40px;
+    color: rgb(239,191,6);
+    letter-spacing: 2px;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(90deg, #ffcc00, #fff, #ffcc00);
+    background-size: 80%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    animation: shine 3s infinite linear;
+}
+
+@keyframes shine {
+    0% {
+        background-position: -200%;
+    }
+    100% {
+        background-position: 200%;
+    }
+    
+}
+
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap : 30px;
+    margin-top: 50px;
+    padding: 40px;
+    font-size: 40px;
+    background: rgb(6,13,84) ;
+    width: 50%;
+    margin-bottom: 50px;
+    border-radius: 10px;
+}
+
+.input-group label {
+    color: #fff;
+}
+
+.input-group{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
+}
+
+.name-register {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+}
+
+.submit-btn {
+    background: #ffcc00;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: black;
+    font-weight: bold;
+    font-size: large;
+    cursor: pointer;
+    transition: background 0.3s;
+    width: 80%;
+}
+
+.submit-btn:hover {
+    background: #e6b800;
+}

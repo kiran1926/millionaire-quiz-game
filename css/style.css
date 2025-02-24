@@ -1,0 +1,130 @@
+body,html {
+    color: #fff;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    height: 100%
+}
+
+.bg-image{
+    background: url('../img/bg1.jpg') no-repeat center center fixed;
+    background-size: cover;
+    overflow: hidden;
+    height: 100%;
+    backdrop-filter: blur(5px);
+}
+
+img{
+    width: 400px;
+    overflow: hidden;
+    border-radius: 50%;
+    animation: golden-shine 2s infinite;
+}
+
+@keyframes golden-shine {
+  0% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.8), 0 0 60px rgba(255, 215, 0, 0.6), 0 0 90px rgba(255, 215, 0, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.3), 0 0 20px rgba(255, 215, 0, 0.5), 0 0 30px rgba(255, 215, 0, 0.7);
+  }
+
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+}
+
+.game-logo img {
+    width: 200px;
+    margin: 20px auto;
+}
+
+.timer {
+    font-size: 2rem;
+    background: #222;
+    border: 2px solid #555;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    margin: 0 auto;
+}
+
+
+.question-box {
+    background: #0b3d91;
+    border: 2px solid #f2a900;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px auto;
+    width: 80%;
+    color: #fff;
+    box-shadow: 0 0 10px #333;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.option {
+    background: #333;
+    border: 2px solid #555;
+    border-radius: 5px;
+    padding: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fff;
+}
+
+.option:hover {
+    background: #555;
+}
+
+.lifelines {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.lifeline {
+    background: #222;
+    border: 2px solid #444;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: #fff;
+}
+
+.lifeline:hover {
+    background: #444;
+}
+
+.money-ladder {
+    position: absolute;
+    right: 20px;
+    top: 50px;
+    text-align: right;
+}
+
+.money-ladder ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    color: #ffcc00;
+    font-weight: bold;
+}
+
+.money-ladder li {
+    padding: 5px 0;
+}
