@@ -112,7 +112,6 @@ let inGamePlay = "";
 let questionText = document.querySelector(".question-text");
 let options = document.querySelectorAll(".option");
 let nextQuestionBtn = document.querySelector(".next-question");
-// let amountWon = document.querySelector(".amount-won");
 
 //  ============================ 2. Function startGame()   ===================================
 
@@ -177,14 +176,42 @@ function checkAnswer(event) {
     //disable chosen lifeline;
   }
 }
-
 //  ============================ 6. lifelines() function   ======================================
-
 /*
     1. useFiftyFifty();
     2. useAskAudience();
     3. usePhoneAFriend();
 */
+let fiftyFiftyUsed = false;
+let phoneAFriendUsed = false;
+let audiencePollUsed = false;
+
+// 1.fifty-fifty
+function useFiftyFifty(event) {
+   if(fiftyFiftyUsed) return alert ("Lifeline used");
+   const correctAnswer = quiz[questionIndex].answer;
+   let incorrectAnswers = [];
+   options.forEach(option => {
+    if(option.innerText !== correctAnswer){
+        incorrectAnswers.push(option);
+    }
+   });
+   let removeOptions = 0;
+   while(removeOptions < 2 && incorrectAnswers.length > 0){
+    const randomIdx = Math.floor(Math.random() * incorrectAnswers.length);
+    incorrectAnswers[randomIdx].innerText = "";
+    incorrectAnswers.splice(randomIdx, 1);
+    removeOptions++ ;
+   }
+   //disable fifty after use
+   fiftyFiftyUsed = true;
+   document.getElementById('fiftyFifty').disabled = true;
+}
+
+// 2. Audience poll 
+
+
+
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
 /*
@@ -235,12 +262,12 @@ function checkAnswer(event) {
 */
 //event bubbling- adding on parent options
 document.getElementById('optionsId').addEventListener('click', checkAnswer);
+document.getElementById('fifty-fifty').addEventListener('click', useFiftyFifty);
 
  //  ============================ 11. Event Handlers  =========================================
 /*
      Event Handler for Answer Selection
      Event Handler for Next Button
-     Event Handler for Restart Button
      Event Handler for Lifelines
 */
 

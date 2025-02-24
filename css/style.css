@@ -126,6 +126,8 @@ body,html {
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
+    background: none;
+    border: 0px;
 }
 
 .lifeline-icon {
@@ -175,3 +177,5 @@ body,html {
     justify-content:space-between;
     align-items: center;
 }
+
+
