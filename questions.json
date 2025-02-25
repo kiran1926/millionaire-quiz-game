@@ -63,34 +63,34 @@
     "options": ["<script>", "<js>", "<link>", "<style>"],
     "answer": "<script>",
     "hint": "This tag is used to either embed or link to external JavaScript code"
-},
-{
-  "question": "What will be the output of the following JavaScript code: `console.log(0.1 + 0.2 == 0.3)`?",
-  "options": ["true", "false", "NaN", "undefined"],
-  "answer": "false",
-  "hint": "Due to floating-point precision errors in JavaScript, the sum won't exactly equal 0.3"
-},
-{
-  "question": "What will `console.log([] == ![])` output in JavaScript?",
-  "options": ["true", "false", "undefined", "error"],
-  "answer": "true",
-  "hint": "This evaluates to a comparison between an empty array and the negation of an empty array"
-},
-{
-  "question": "What is the default value of the `flex-wrap` property in Flexbox?",
-  "options": ["nowrap", "wrap", "reverse", "none"],
-  "answer": "nowrap",
-  "hint": "By default, Flexbox containers do not wrap flex items onto multiple lines"
-},
-{
-  "question": "What will happen if you attach an event listener to an element inside a loop?",
-  "options": [
+  },
+  {
+    "question": "What will be the output of the following JavaScript code: `console.log(0.1 + 0.2 == 0.3)`?",
+    "options": ["true", "false", "NaN", "undefined"],
+    "answer": "false",
+    "hint": "Due to floating-point precision errors in JavaScript, the sum won't exactly equal 0.3"
+  },
+  {
+    "question": "What will `console.log([] == ![])` output in JavaScript?",
+    "options": ["true", "false", "undefined", "error"],
+    "answer": "true",
+    "hint": "This evaluates to a comparison between an empty array and the negation of an empty array"
+  },
+  {
+    "question": "What is the default value of the `flex-wrap` property in Flexbox?",
+    "options": ["nowrap", "wrap", "reverse", "none"],
+    "answer": "nowrap",
+    "hint": "By default, Flexbox containers do not wrap flex items onto multiple lines"
+  },
+  {
+    "question": "What will happen if you attach an event listener to an element inside a loop?",
+    "options": [
       "The same handler will be assigned multiple times to the element",
       "The event handler will execute only once",
       "An error will occur",
       "The handler will not be triggered"
-  ],
-  "answer": "The same handler will be assigned multiple times to the element",
-  "hint": "If you are attaching listeners inside loops, it’s important to consider scope and event delegation"
-},
+    ],
+    "answer": "The same handler will be assigned multiple times to the element",
+    "hint": "If you are attaching listeners inside loops, it's important to consider scope and event delegation"
+  }
 ]

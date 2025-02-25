@@ -136,18 +136,23 @@ function loadQuestion() {
       option.innerText = quiz[questionIndex].options[index];
       
     });
+    startTimer();
   }else {
     //end game and show result
     endGame();
   }
 }
-loadQuestion();
-
 //  ============================   4. startTimer()  ===========================================
+
+let timer;
 
 function startTimer(){
     let timeLeft = 30;
-    const timer = setInterval(function(){
+    //clear previous timer if exists
+    if(timer){
+        clearInterval(timer);
+    }
+    timer = setInterval(function(){
         document.getElementById('thirtySec').innerText = timeLeft;
         timeLeft-- ;
         if( timeLeft < 0) {
@@ -157,10 +162,6 @@ function startTimer(){
         }
     }, 1000); //updates every second
 }
-function afterThirtySec() {
-    console.log("time's up");
-}
-startTimer(afterThirtySec);
 
 //  ============================   5. Answer Selection   ======================================
 
@@ -169,10 +170,12 @@ function checkAnswer(event) {
   if (selectedOption.classList.contains("option")) {
     if (selectedOption.innerText === quiz[questionIndex].answer) {
     //   correctPlay.play(); //sound
+    clearInterval(timer);
       questionIndex++;
       loadQuestion();
     } else if (selectedOption.innerText !== quiz[questionIndex].answer) {
     //   wrongPlay.play();
+      clearInterval(timer);
       endGame();
     } // need to add lifeline logic - if chooses lifelines then call lifelines() function;
     //disable chosen lifeline;
@@ -244,7 +247,7 @@ function useAudiencePoll (event) {
     document.getElementById('pollResults').style.display = "block";
 
     audiencePollUsed = true;
-    document.getElementById('audience-poll'),disabled = true;
+    document.getElementById('audience-poll').disabled = true;
 }
 
 // phone a friend or friendlyHint()
@@ -255,13 +258,18 @@ function useFriendlyHint (event) {
     hint.style.display = hint.style.display === "none" ? 'block' : 'none';
     render();
    friendlyHintUsed = true;
-    document.getElementById('friendly-hint'),disabled = true;
+    document.getElementById('friendly-hint').disabled = true;
 }
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
 /*
     function updateScoreAndMoney();
 */
+
+let currentMoney = 0;
+function updateMoney(){
+    
+}
 
 //  ============================ 7. nextQuestion function  =====================================
 
@@ -294,6 +302,16 @@ function useFriendlyHint (event) {
     function restartGame();
     set everything to initial stage;
 */
+function restart(){
+    questionIndex = 0;
+    fiftyFiftyUsed = false;
+    friendlyHintUsed = false;
+    audiencePollUsed = false;
+    nextQuestionBtn.disabled = true;
+    loadQuestion();
+    startGame();
+    //document.getElementById('restart').style.display = 'none';
+}
 
 //  ============================ 10. Event Listeners  =========================================
 
@@ -303,19 +321,17 @@ function useFriendlyHint (event) {
     3. for restart
     4. for lifelines - 3 buttons
     5. for ending game
-
 */
 //event bubbling- adding on parent options
 document.getElementById('optionsId').addEventListener('click', checkAnswer);
 document.getElementById('fifty-fifty').addEventListener('click', useFiftyFifty);
 document.getElementById('audience-poll').addEventListener('click', useAudiencePoll);
-document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint)
+document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint);
+//document.getElementById('restart').addEventListener('click', restartGame);
  //  ============================ 11. Render  =========================================
+
 function render (){
-    quiz.forEach((question, index ) => {
         hint.textContent =  `💡 Hint : ${quiz[questionIndex].hint}`;
-        console.log(hint);
-    });
 }
 
 //  ============================ 12. Advancing functionalies  ======================================
