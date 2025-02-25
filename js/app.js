@@ -210,7 +210,39 @@ function useFiftyFifty(event) {
 
 // 2. Audience poll 
 
+function useAudiencePoll (event) {
+    if(audiencePollUsed) return alert("lifeline used");
+    const correctAnswer = quiz[questionIndex].answer;
+    let polls = [];
+    let totalPercent = 100;
 
+    options.forEach(option => {
+        let percentage;
+        if(option.innerText === correctAnswer){
+         percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent possibility
+        } else {
+            percentage = Math.floor(Math.random() * 40) ;  // incorrect from 0 to 40 percent
+        }
+        polls.push({option: option.innerText, percentage: percentage});
+        totalPercent -= percentage ;
+    });
+    //adjust percentages to sum up 100%
+    if(totalPercent > 0){
+        const randomIdx = Math.floor(Math.random() * polls.length);
+        polls[randomIdx].percentage += totalPercent;
+    }
+    //display poll results
+    const pollList = document.getElementById('pollList');
+    pollList.innerText = "";
+    polls.forEach(result => {
+        const listItem = document.createElement('li');
+        listItem.innerText = `${result.option} : ${result.percentage} %`;
+        pollList.appendChild(listItem);
+    });
+    document.getElementById('pollResults').style.display = "block";
+}
+
+// phone a friend or friendlyHint()
 
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
@@ -263,7 +295,8 @@ function useFiftyFifty(event) {
 //event bubbling- adding on parent options
 document.getElementById('optionsId').addEventListener('click', checkAnswer);
 document.getElementById('fifty-fifty').addEventListener('click', useFiftyFifty);
-
+document.getElementById('audience-poll').addEventListener('click', useAudiencePoll);
+document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint);
  //  ============================ 11. Event Handlers  =========================================
 /*
      Event Handler for Answer Selection
