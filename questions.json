@@ -1,14 +1,96 @@
 [
-    {
-       "question": "What is the capital of France?",
-        "options": ["Berlin", "Madrid", "Paris", "Lisbon"],
-        "answer": "Paris",
-        "hint" : "This city is known for its art, fashion, and a famous river called the Seine"
-    },
-    {
-        "question": "Which planet is known as the Red Planet?",
-        "options": ["Earth", "Mars", "Jupiter", "Saturn"],
-        "answer": "Mars",
-        "hint" : "This planet is named after the Roman god of war"
-    }
+  {
+    "question": "Which method is used to add a new element at the end of an array in JavaScript?",
+    "options": ["push()", "pop()", "shift()", "unshift()"],
+    "answer": "push()",
+    "hint": "It's a method that modifies the array by appending new values to the array's last position"
+  },
+  {
+    "question": "In HTML, what tag is used to define a hyperlink?",
+    "options": ["<a>", "<link>", "<button>", "<href>"],
+    "answer": "<a>",
+    "hint": "The anchor tag establishes relationships between the current page and another resource"
+  },
+  {
+    "question": "Which of the following is NOT a valid JavaScript data type?",
+    "options": ["String", "Boolean", "Integer", "Null"],
+    "answer": "Integer",
+    "hint": "JavaScript uses a generalized type for numbers, which does not differentiate between integers and floating-point numbers"
+  },
+  {
+    "question": "What is the result of `typeof NaN` in JavaScript?",
+    "options": ["'number'", "'NaN'", "'undefined'", "'object'"],
+    "answer": "'number'",
+    "hint": "NaN is actually considered a special numeric value in JavaScript"
+  },
+  {
+    "question": "In JavaScript, what will `[] == []` return?",
+    "options": ["true", "false", "undefined", "null"],
+    "answer": "false",
+    "hint": "In JavaScript, arrays are reference types and comparison checks the reference, not the content"
+  },
+  {
+    "question": "Which of the following CSS selectors selects all `<p>` elements that are direct children of a `<div>` element?",
+    "options": [".div > p", "div p", "div + p", "div > .p"],
+    "answer": "div > p",
+    "hint": "The '>' symbol is the child combinator in CSS"
+  },
+  {
+    "question": "Which of the following CSS properties cannot be animated?",
+    "options": ["background-color", "height", "width", "display"],
+    "answer": "display",
+    "hint": "The 'display' property changes layout, which is not animatable in CSS"
+  },
+  {
+    "question": "What is the default value of the CSS `position` property?",
+    "options": ["static", "relative", "absolute", "fixed"],
+    "answer": "static",
+    "hint": "Elements with a default position are laid out in the normal document flow"
+  },
+  {
+    "question": "What does the `this` keyword refer to inside an event handler in JavaScript?",
+    "options": [
+      "The window object",
+      "The element that triggered the event",
+      "The function itself",
+      "undefined"
+    ],
+    "answer": "The element that triggered the event",
+    "hint": "In event handlers, `this` refers to the element that is firing the event unless explicitly changed"
+  },
+  {
+    "question": "Which of the following HTML tags is used to include external JavaScript code in a web page?",
+    "options": ["<script>", "<js>", "<link>", "<style>"],
+    "answer": "<script>",
+    "hint": "This tag is used to either embed or link to external JavaScript code"
+},
+{
+  "question": "What will be the output of the following JavaScript code: `console.log(0.1 + 0.2 == 0.3)`?",
+  "options": ["true", "false", "NaN", "undefined"],
+  "answer": "false",
+  "hint": "Due to floating-point precision errors in JavaScript, the sum won't exactly equal 0.3"
+},
+{
+  "question": "What will `console.log([] == ![])` output in JavaScript?",
+  "options": ["true", "false", "undefined", "error"],
+  "answer": "true",
+  "hint": "This evaluates to a comparison between an empty array and the negation of an empty array"
+},
+{
+  "question": "What is the default value of the `flex-wrap` property in Flexbox?",
+  "options": ["nowrap", "wrap", "reverse", "none"],
+  "answer": "nowrap",
+  "hint": "By default, Flexbox containers do not wrap flex items onto multiple lines"
+},
+{
+  "question": "What will happen if you attach an event listener to an element inside a loop?",
+  "options": [
+      "The same handler will be assigned multiple times to the element",
+      "The event handler will execute only once",
+      "An error will occur",
+      "The handler will not be triggered"
+  ],
+  "answer": "The same handler will be assigned multiple times to the element",
+  "hint": "If you are attaching listeners inside loops, it’s important to consider scope and event delegation"
+},
 ]

@@ -257,7 +257,6 @@ function useFriendlyHint (event) {
    friendlyHintUsed = true;
     document.getElementById('friendly-hint'),disabled = true;
 }
-
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
 /*
