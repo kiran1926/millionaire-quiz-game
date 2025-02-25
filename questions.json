@@ -2,11 +2,13 @@
     {
        "question": "What is the capital of France?",
         "options": ["Berlin", "Madrid", "Paris", "Lisbon"],
-        "answer": "Paris"
+        "answer": "Paris",
+        "hint" : "This city is known for its art, fashion, and a famous river called the Seine"
     },
     {
         "question": "Which planet is known as the Red Planet?",
         "options": ["Earth", "Mars", "Jupiter", "Saturn"],
-        "answer": "Mars"
+        "answer": "Mars",
+        "hint" : "This planet is named after the Roman god of war"
     }
 ]

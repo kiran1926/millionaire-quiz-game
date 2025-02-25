@@ -22,6 +22,7 @@ body,html {
     overflow: hidden;
     border-radius: 50%;
     animation: golden-shine 2s infinite;
+    margin-bottom: 40px;
 }
 
 @keyframes golden-shine {
@@ -172,10 +173,16 @@ body,html {
 }
 
 .timer-lifelines{
-    margin-top: 40px;
+    margin-top: 10px;
     display: flex;
     justify-content:space-between;
     align-items: center;
 }
 
-
+h3{
+    background-color: gold;
+    color: black;
+    width: fit-content;
+    padding: 10px;
+    border-radius: 10px;
+}

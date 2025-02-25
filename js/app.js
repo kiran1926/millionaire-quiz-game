@@ -11,6 +11,8 @@
 //parts of the game :
 
 //  ============================ 1. Initialize Game Data   ====================================
+// constants : 
+const hint = document.getElementById('hint-text');
 
 // 1. Initialize player data : name
 
@@ -183,7 +185,7 @@ function checkAnswer(event) {
     3. usePhoneAFriend();
 */
 let fiftyFiftyUsed = false;
-let phoneAFriendUsed = false;
+let friendlyHintUsed = false;
 let audiencePollUsed = false;
 
 // 1.fifty-fifty
@@ -205,7 +207,7 @@ function useFiftyFifty(event) {
    }
    //disable fifty after use
    fiftyFiftyUsed = true;
-   document.getElementById('fiftyFifty').disabled = true;
+   document.getElementById('fifty-fifty').disabled = true;
 }
 
 // 2. Audience poll 
@@ -240,9 +242,21 @@ function useAudiencePoll (event) {
         pollList.appendChild(listItem);
     });
     document.getElementById('pollResults').style.display = "block";
+
+    audiencePollUsed = true;
+    document.getElementById('audience-poll'),disabled = true;
 }
 
 // phone a friend or friendlyHint()
+
+function useFriendlyHint (event) {
+    if(friendlyHintUsed) return alert("lifeline used");
+    //display hint : TODO need to put some logic 
+    hint.style.display = hint.style.display === "none" ? 'block' : 'none';
+    render();
+   friendlyHintUsed = true;
+    document.getElementById('friendly-hint'),disabled = true;
+}
 
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
@@ -296,13 +310,13 @@ function useAudiencePoll (event) {
 document.getElementById('optionsId').addEventListener('click', checkAnswer);
 document.getElementById('fifty-fifty').addEventListener('click', useFiftyFifty);
 document.getElementById('audience-poll').addEventListener('click', useAudiencePoll);
-document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint);
- //  ============================ 11. Event Handlers  =========================================
-/*
-     Event Handler for Answer Selection
-     Event Handler for Next Button
-     Event Handler for Lifelines
-*/
-
+document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint)
+ //  ============================ 11. Render  =========================================
+function render (){
+    quiz.forEach((question, index ) => {
+        hint.textContent =  `💡 Hint : ${quiz[questionIndex].hint}`;
+        console.log(hint);
+    });
+}
 
 //  ============================ 12. Advancing functionalies  ======================================
