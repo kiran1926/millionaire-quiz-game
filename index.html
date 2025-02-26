@@ -17,14 +17,14 @@
                 <div class="logo">
                     <img class="logo-image" src="img/logo.png" alt="logo image of the game">
                 </div>
-                
+
                 <div class="question-container">
                     <div class="timer-lifelines">
                         <!-- Timer -->
                         <div class="timer" id="thirtySec">30</div>
                         <div>
                             <h3 id="hint-text" style="display: none;"></h3>
-                            </div>
+                        </div>
                         <!-- Lifelines -->
                         <div class="lifelines">
                             <button class="lifeline-fifty-fifty" id="fifty-fifty"><img class="lifeline-icon"
@@ -49,8 +49,13 @@
                         <div class="option" id="3"><span>D.</span></div>
                     </section>
                 </div>
-                <div>
-                    <button type="button" class="next-question">Next Question</button>
+                <div class="button-container">
+                    <div>
+                        <button type="button" class="restart-game">Restart Game</button>
+                    </div>
+                    <div>
+                        <button type="button" class="next-question">Next Question</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -63,6 +68,9 @@
                 <div id="pollResults" style="display: none;">
                     <h3>Audience Poll Results:</h3>
                     <ul id="pollList"></ul>
+                </div>
+                <div>
+                    <button type="button" class="exit-game">Exit Game</button>
                 </div>
             </div>
         </div>

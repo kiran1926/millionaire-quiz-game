@@ -7,12 +7,22 @@
        3. Lifelines: Players can use lifelines such as 50:50, Ask the Audience, and Call a Friend.
        4. Scoring System: Players earn points based on the number of questions answered correctly.
        5. Audio Effects: The game features sound effects for correct and wrong answers, as well as background music. */
-
-//parts of the game :
-
 //  ============================ 1. Initialize Game Data   ====================================
 // constants : 
 const hint = document.getElementById('hint-text');
+// generateSounds
+let mainThemePlay = "";
+let wrongPlay = "";
+let correctPlay = "";
+let callPlay = "";
+let fifty50Play = "";
+let audiencePlay = "";
+let inGamePlay = "";
+
+//selectors
+const questionText = document.querySelector(".question-text");
+const options = document.querySelectorAll(".option");
+const nextQuestionBtn = document.querySelector(".next-question");
 
 // 1. Initialize player data : name
 
@@ -89,12 +99,16 @@ const progressChart = [
 ]
 
 // 3. create a list of questions :
-let questionIndex = 0;
 let quiz = [];
-//TODO: put this into a function and call this in a start function
-//fetch questions from questions.json
+let questionIndex = 0;
+let fiftyFiftyUsed = false;
+let friendlyHintUsed = false;
+let audiencePollUsed = false;
+nextQuestionBtn.disabled = true;
+//  ============================== json call ========================================
+
 const loadQuiz = () => {
-  return fetch("question.json")
+  return fetch("questions.json")
   .then(response => {
     if(!response.ok) {
         throw new Error (`HTTP error! Status: ${response.status}`);
@@ -107,76 +121,39 @@ const loadQuiz = () => {
     .catch(error => console.error("Failed to load questions: ", error));
 }
 
-// generateSounds
-let mainThemePlay = "";
-let wrongPlay = "";
-let correctPlay = "";
-let callPlay = "";
-let fifty50Play = "";
-let audiencePlay = "";
-let inGamePlay = "";
-
-//selectors
-// make these const and use element by Id
-let questionText = document.querySelector(".question-text");
-let options = document.querySelectorAll(".option");
-let nextQuestionBtn = document.querySelector(".next-question");
-
-//  ============================ progress set show  =========================================
-
-const showProgress = (progressChart) => {
-    let progress = document.querySelector(".progress");
-    let progressData = "";
-
-    progressChart =progressChart.sort((a, b) => b.price - a.price);
-
-    progressChart.forEach((item, index) => {
-        if(item.price === 1000 || item.price === 32000 || item.price === 1000000){
-            
-            item.price = item.price.toLocaleString();
-            progressData += `<div class= "progressinSafe"> $ ${item.price}</div>` ;
-
-        } else {
-            item.price = item.price.toLocaleString();
-            progressData += `<div class= "progressin"> $ ${item.price}</div>` ;
-        }        
-    });
-    progress.innerHTML = progressData;
-}
-showProgress(progressChart);
 //  ============================ 2. Function startGame()   ===================================
 
 const startGame = () => {
-    loadQuiz();
-    startTimer();
+    loadQuiz().then(() => {
+        loadQuestion();
+        showProgress(progressChart);
+        setActiveProgressScore(questionIndex);
+    });
     // mainThemePlay.play();
 };
 startGame();
 
 //  ============================  3. Load the question   ======================================
 
-/*  TODO:
-    show available lifelines; 
-*/
 function loadQuestion() {
-  if (questionIndex < quiz.length) {
-    questionText.innerText = `Q ${questionIndex + 1}. \xa0\xa0\xa0 ${quiz[questionIndex].question} `;
-    
-    const optionLabels = ['A', 'B', 'C', 'D'];
-    options.forEach((option, index) => {
-      option.innerHTML = `<span>${optionLabels[index]}.</span> \xa0\xa0\xa0 ${quiz[questionIndex].options[index]}`;
+    if (questionIndex < quiz.length) {
+      questionText.innerText = `Q ${questionIndex + 1}. \xa0\xa0\xa0 ${quiz[questionIndex].question} `;
       
-    });
-    startTimer();
-  }else {
-    //end game and show result
-    endGame();
+      const optionLabels = ['A', 'B', 'C', 'D'];
+      options.forEach((option, index) => {
+        option.innerHTML = `<span>${optionLabels[index]}.</span> \xa0\xa0\xa0 ${quiz[questionIndex].options[index]}`;
+        option.setAttribute("data-answer", quiz[questionIndex].options[index]); // for catching only answer in data-answer
+      });
+      startTimer();
+    }else {
+      //end game and show result
+      endGame();
+    }
   }
-}
+
 //  ============================   4. startTimer()  ===========================================
 
 let timer;
-
 function startTimer(){
     let timeLeft = 30;
     //clear previous timer if exists
@@ -197,38 +174,51 @@ function startTimer(){
 //  ============================   5. Answer Selection   ======================================
 
 function checkAnswer(event) {
-  const selectedOption = event.target;
-  if (selectedOption.classList.contains("option")) {
-    if (selectedOption.innerText === quiz[questionIndex].answer) {
-    //   correctPlay.play(); //sound
-    clearInterval(timer);
-      questionIndex++;
-      loadQuestion();
-    } else if (selectedOption.innerText !== quiz[questionIndex].answer) {
-    //   wrongPlay.play();
-      clearInterval(timer);
-      endGame();
-    } // need to add lifeline logic - if chooses lifelines then call lifelines() function;
-    //disable chosen lifeline;
+    const selectedOption = event.target;
+    if (selectedOption.classList.contains("option")) {
+      const selecetedAnswer = selectedOption.getAttribute("data-answer");
+      
+      options.forEach(option => option.style.pointerEvents = "none"); // disable further click on other options
+      if (selecetedAnswer === quiz[questionIndex].answer) {
+
+        selectedOption.classList.add("correct"); //turn color green
+      //   correctPlay.play(); //sound
+        clearInterval(timer);
+        setActiveProgressScore(questionIndex);
+        // nextQuestion();
+        nextQuestionBtn.disabled = false;
+        // questionIndex++;
+        // loadQuestion();
+        
+      } else {
+      //   wrongPlay.play();
+      selectedOption.classList.add("wrong"); // turns red
+        clearInterval(timer);
+        endGame();
+      
+          // Flash the correct answer
+          options.forEach(option => {
+            if (option.getAttribute("data-answer") === quiz[questionIndex].answer) {
+                option.classList.add("flash-correct");
+            }
+        });
+      }
+    }
   }
-}
+
 //  ============================ 6. lifelines() function   ======================================
 /*
     1. useFiftyFifty();
     2. useAskAudience();
     3. usePhoneAFriend();
 */
-let fiftyFiftyUsed = false;
-let friendlyHintUsed = false;
-let audiencePollUsed = false;
-
 // 1.fifty-fifty
 function useFiftyFifty(event) {
    if(fiftyFiftyUsed) return alert ("Lifeline used");
    const correctAnswer = quiz[questionIndex].answer;
    let incorrectAnswers = [];
    options.forEach(option => {
-    if(option.innerText !== correctAnswer){
+    if(option.getAttribute("data-answer") !== correctAnswer){
         incorrectAnswers.push(option);
     }
    });
@@ -236,6 +226,7 @@ function useFiftyFifty(event) {
    while(removeOptions < 2 && incorrectAnswers.length > 0){
     const randomIdx = Math.floor(Math.random() * incorrectAnswers.length);
     incorrectAnswers[randomIdx].innerText = "";
+    incorrectAnswers[randomIdx].setAttribute("data-answer", "");
     incorrectAnswers.splice(randomIdx, 1);
     removeOptions++ ;
    }
@@ -253,8 +244,9 @@ function useAudiencePoll (event) {
     let totalPercent = 100;
 
     options.forEach(option => {
+        if(option.innerText.trim() === "") return;
         let percentage;
-        if(option.innerText === correctAnswer){
+        if(option.getAttribute("data-answer") === correctAnswer){
          percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent possibility
         } else {
             percentage = Math.floor(Math.random() * 40) ;  // incorrect from 0 to 40 percent
@@ -285,36 +277,90 @@ function useAudiencePoll (event) {
 
 function useFriendlyHint (event) {
     if(friendlyHintUsed) return alert("lifeline used");
-    //display hint : TODO need to put some logic 
     hint.style.display = hint.style.display === "none" ? 'block' : 'none';
     render();
    friendlyHintUsed = true;
     document.getElementById('friendly-hint').disabled = true;
 }
+
+//  ============================ 9. Restart Game function  =====================================
+
+function restart(){
+    questionIndex = 0;
+    fiftyFiftyUsed = false;
+    friendlyHintUsed = false;
+    audiencePollUsed = false;
+    nextQuestionBtn.disabled = true;
+    // loadQuestion();
+    startGame();
+    //document.getElementById('restart').style.display = 'none';
+}
+//  ============================ progress set show  =========================================
+
+const showProgress = (progressChart) => {
+    let progress = document.querySelector(".progress");
+    let progressData = "";
+
+    progressChart =progressChart.sort((a, b) => b.price - a.price);
+
+    progressChart.forEach((item, index) => {
+        if(item.price === 1000 || item.price === 32000 || item.price === 1000000){
+            
+            item.price = item.price.toLocaleString();
+            progressData += `<div class= "progressinSafe"> $ ${item.price}</div>` ;
+
+        } else {
+            item.price = item.price.toLocaleString();
+            progressData += `<div class= "progressin"> $ ${item.price}</div>` ;
+        }        
+    });
+    progress.innerHTML = progressData;
+}
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
 //populate progress section
-const populateProgressSection = () => {
-    const questionPrizeMap = prizes.map((prize, index) => ({
-        questionNumber: index,
-        questionAnsweredCorrectly: false,
-        prize,
-      }));
-}
+// const populateProgressSection = () => {
+//     const questionProgressMap = progressChart.map((price, index) => ({
+//         questionNumber: index,
+//         questionAnsweredCorrectly: false,
+//         price,
+//       }));
+// }
+
+const setActiveProgressScore = (questionIndex) => {
+    let currentQuestion = questionIndex + 1;
+    let progress = document.querySelector(".progress");
+    let progressSetData = progress.querySelectorAll("div");
+    let progressDataLength = progressSetData.length;
+
+    // Ensure the index is within the valid range
+    if (currentQuestion < progressDataLength) {
+        // Remove the active class from all elements
+        progressSetData.forEach(div => div.classList.remove("active"));
+        
+        // Set the active class based on the question index
+        progressSetData[progressDataLength - currentQuestion].classList.add("active");
+    } else {
+        console.log("Index out of bounds");
+    }
+};
+
 //  ============================ 7. nextQuestion function  =====================================
 
-/*
-    function nextQuestion();
-    INCREMENT currentQuestionIndex BY 1;
-    IF currentQuestionIndex < LENGTH OF questions Then
-        call loadQuestion();
-        call startTimer();
-    ELSE
-        call endGame();
-*/
+const nextQuestion = (event) => {
+    nextQuestionBtn.disabled = true; 
+    questionIndex++;
+    setActiveProgressScore(questionIndex);
+    if (questionIndex < quiz.length) {
+        loadQuestion(); 
+        // startTimer();    
+    } else {
+        endGame();
+    }
+}
+// Call nextQuestion() to move through the questions
 
 //  ============================ 8. endGame()  ===============================================
-
 /*
     function endGame()
     STOP backgroundMusic
@@ -325,24 +371,6 @@ const populateProgressSection = () => {
 */function endGame(){
  console.log("game over!");
 };
-
-//  ============================ 9. Restart Game function  =====================================
-
-/*
-    function restartGame();
-    set everything to initial stage;
-*/
-function restart(){
-    questionIndex = 0;
-    fiftyFiftyUsed = false;
-    friendlyHintUsed = false;
-    audiencePollUsed = false;
-    nextQuestionBtn.disabled = true;
-    loadQuestion();
-    startGame();
-    //document.getElementById('restart').style.display = 'none';
-}
-
 //  ============================ 10. Event Listeners  =========================================
 
 /*
@@ -352,8 +380,12 @@ function restart(){
     4. for lifelines - 3 buttons
     5. for ending game
 */
+nextQuestionBtn.addEventListener("click", nextQuestion);
 //event bubbling- adding on parent options
-document.getElementById('optionsId').addEventListener('click', checkAnswer);
+document.getElementById('optionsId').addEventListener('click', (event) => {
+    console.log(event.target); // Check if you're getting the correct clicked element
+    checkAnswer(event);
+});
 document.getElementById('fifty-fifty').addEventListener('click', useFiftyFifty);
 document.getElementById('audience-poll').addEventListener('click', useAudiencePoll);
 document.getElementById('friendly-hint').addEventListener('click', useFriendlyHint);
@@ -363,5 +395,3 @@ document.getElementById('friendly-hint').addEventListener('click', useFriendlyHi
 function render (){
         hint.textContent =  `💡 Hint : ${quiz[questionIndex].hint}`;
 }
-
-//  ============================ 12. Advancing functionalies  ======================================

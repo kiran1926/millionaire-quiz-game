@@ -7,8 +7,8 @@
   },
   {
     "question": "In HTML, what tag is used to define a hyperlink?",
-    "options": ["<a>", "<link>", "<button>", "<href>"],
-    "answer": "<a>",
+    "options": ["&lt;a&gt;", "&lt;link&gt;", "&lt;button&gt;", "&lt;href&gt;"],
+    "answer": "&lt;a&gt;",
     "hint": "The anchor tag establishes relationships between the current page and another resource"
   },
   {
@@ -31,7 +31,7 @@
   },
   {
     "question": "Which of the following CSS selectors selects all `<p>` elements that are direct children of a `<div>` element?",
-    "options": [".div > p", "div p", "div + p", "div > .p"],
+    "options": [".div > p", "div p", "div + p", "div > p"],
     "answer": "div > p",
     "hint": "The '>' symbol is the child combinator in CSS"
   },

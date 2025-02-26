@@ -44,6 +44,7 @@ body,html {
     flex: 7;
     display: flex;
     justify-content: flex-end;
+    margin-left: 140px;
     padding-left: 20px;
 }
 .main{
@@ -53,6 +54,7 @@ body,html {
 }
 
 .container-right{
+    max-width: 800px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -60,7 +62,6 @@ body,html {
     width: 100%;
     height: 100vh;
     text-align: center;
-
 }
 
 .game-logo img {
@@ -113,7 +114,26 @@ body,html {
 }
 
 .option:hover {
-    background: #555;
+    background: #231eb0;
+}
+
+.correct {
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.wrong {
+    background-color: #e0190b; /* Red */
+    color: white;
+}
+
+.flash-correct {
+    animation: flash 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes flash {
+    0% { background-color: #4ddd10; } /* Amber */
+    100% { background-color: #4CAF50; } /* Green */
 }
 
 .lifelines {
@@ -149,6 +169,8 @@ body,html {
 .progress {
     width: 100%;
     padding: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
     background: linear-gradient(145deg, #0a1b82, #060d53);
     color: white;
     font-size: 1.2rem;
@@ -239,16 +261,43 @@ body,html {
     }
 }
 
-.next-question{
+.progress div.active {
+    background-color: #4CAF50;  /* Green background for active step */
+    color: white;
+}
+.button-container{
+  display: flex;
+  justify-content: space-between;
+  padding-left: 10px;
+}
+.next-question, .restart-game{
     background: #060d53;
+    border: 2px solid rgb(192, 185, 185);
+    border-radius: 30px;
+    padding: 18px;
+    cursor: pointer;
+    transition: background 0.3s;
+    color: black;
+    margin-top: 30px;
+    width : 100%;
+    font-size: 1.5rem;
+}
+.next-question{
+    background-color: #17c207;
+}
+.restart-game{
+    background-color: #e6d328;
+}
+.exit-game{
+    background: #eb6a0e;
     border: 2px solid rgb(188, 180, 180);
     border-radius: 30px;
-    padding: 25px;
+    padding: 20px;
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
     margin-top: 30px;
-    width : 30%;
+    width : 100%;
     font-size: 1.5rem;
 }
 
