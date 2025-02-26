@@ -20,7 +20,7 @@ const playerName = document.getElementById('name');
 
 // 2. Money Ladder : array of numbers for each questionIndex upto top prize
 
-const moneyChart = [
+const progressChart = [
     {
         id: 1,
         price: 0,
@@ -91,15 +91,21 @@ const moneyChart = [
 // 3. create a list of questions :
 let questionIndex = 0;
 let quiz = [];
+//TODO: put this into a function and call this in a start function
 //fetch questions from questions.json
-fetch("questions.json")
-    .then(response => response.json())
-    .then (data => {
+const loadQuiz = () => {
+  return fetch("question.json")
+  .then(response => {
+    if(!response.ok) {
+        throw new Error (`HTTP error! Status: ${response.status}`);
+    }
+    return response.json();
+  })
+    .then(data => {
         quiz = data;
-        console.log(quiz);
-        startGame();
     })
-    .catch(error =>console.error(error));
+    .catch(error => console.error("Failed to load questions: ", error));
+}
 
 // generateSounds
 let mainThemePlay = "";
@@ -111,17 +117,41 @@ let audiencePlay = "";
 let inGamePlay = "";
 
 //selectors
+// make these const and use element by Id
 let questionText = document.querySelector(".question-text");
 let options = document.querySelectorAll(".option");
 let nextQuestionBtn = document.querySelector(".next-question");
 
+//  ============================ progress set show  =========================================
+
+const showProgress = (progressChart) => {
+    let progress = document.querySelector(".progress");
+    let progressData = "";
+
+    progressChart =progressChart.sort((a, b) => b.price - a.price);
+
+    progressChart.forEach((item, index) => {
+        if(item.price === 1000 || item.price === 32000 || item.price === 1000000){
+            
+            item.price = item.price.toLocaleString();
+            progressData += `<div class= "progressinSafe"> $ ${item.price}</div>` ;
+
+        } else {
+            item.price = item.price.toLocaleString();
+            progressData += `<div class= "progressin"> $ ${item.price}</div>` ;
+        }        
+    });
+    progress.innerHTML = progressData;
+}
+showProgress(progressChart);
 //  ============================ 2. Function startGame()   ===================================
 
-function startGame(){
-    loadQuestion();
+const startGame = () => {
+    loadQuiz();
     startTimer();
     // mainThemePlay.play();
 };
+startGame();
 
 //  ============================  3. Load the question   ======================================
 
@@ -130,10 +160,11 @@ function startGame(){
 */
 function loadQuestion() {
   if (questionIndex < quiz.length) {
-    questionText.innerText = quiz[questionIndex].question;
-    console.log(questionText);
+    questionText.innerText = `Q ${questionIndex + 1}. \xa0\xa0\xa0 ${quiz[questionIndex].question} `;
+    
+    const optionLabels = ['A', 'B', 'C', 'D'];
     options.forEach((option, index) => {
-      option.innerText = quiz[questionIndex].options[index];
+      option.innerHTML = `<span>${optionLabels[index]}.</span> \xa0\xa0\xa0 ${quiz[questionIndex].options[index]}`;
       
     });
     startTimer();
@@ -213,7 +244,7 @@ function useFiftyFifty(event) {
    document.getElementById('fifty-fifty').disabled = true;
 }
 
-// 2. Audience poll 
+// 2. =================================   Audience poll  ===================================================
 
 function useAudiencePoll (event) {
     if(audiencePollUsed) return alert("lifeline used");
@@ -229,7 +260,7 @@ function useAudiencePoll (event) {
             percentage = Math.floor(Math.random() * 40) ;  // incorrect from 0 to 40 percent
         }
         polls.push({option: option.innerText, percentage: percentage});
-        totalPercent -= percentage ;
+        totalPercent -= percentage;
     });
     //adjust percentages to sum up 100%
     if(totalPercent > 0){
@@ -250,7 +281,7 @@ function useAudiencePoll (event) {
     document.getElementById('audience-poll').disabled = true;
 }
 
-// phone a friend or friendlyHint()
+// ================================= phone a friend or friendlyHint()  ===============================
 
 function useFriendlyHint (event) {
     if(friendlyHintUsed) return alert("lifeline used");
@@ -262,15 +293,14 @@ function useFriendlyHint (event) {
 }
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
-/*
-    function updateScoreAndMoney();
-*/
-
-let currentMoney = 0;
-function updateMoney(){
-    
+//populate progress section
+const populateProgressSection = () => {
+    const questionPrizeMap = prizes.map((prize, index) => ({
+        questionNumber: index,
+        questionAnsweredCorrectly: false,
+        prize,
+      }));
 }
-
 //  ============================ 7. nextQuestion function  =====================================
 
 /*
