@@ -59,12 +59,6 @@
     "hint": "In event handlers, `this` refers to the element that is firing the event unless explicitly changed"
   },
   {
-    "question": "Which of the following HTML tags is used to include external JavaScript code in a web page?",
-    "options": ["<script>", "<js>", "<link>", "<style>"],
-    "answer": "<script>",
-    "hint": "This tag is used to either embed or link to external JavaScript code"
-  },
-  {
     "question": "What will be the output of the following JavaScript code: `console.log(0.1 + 0.2 == 0.3)`?",
     "options": ["true", "false", "NaN", "undefined"],
     "answer": "false",
@@ -81,6 +75,18 @@
     "options": ["nowrap", "wrap", "reverse", "none"],
     "answer": "nowrap",
     "hint": "By default, Flexbox containers do not wrap flex items onto multiple lines"
+  },
+  {
+    "question": "Which of the following array methods will return a new array and not modify the original array?",
+    "options": ["forEach()", "map()", "filter()", "all of the above"],
+    "answer": "all of the above",
+    "hint": "These methods return a new array and do not alter the original array."
+  },
+  {
+    "question": "What will the following code output? `console.log([1, 2, 3].map(String));`",
+    "options": ["[1, 2, 3]", "[1, '2', '3']", "[1, 2, 3] as strings", "['1', '2', '3']"],
+    "answer": "['1', '2', '3']",
+    "hint": "The `map()` function creates a new array by calling `String()` on each element"
   },
   {
     "question": "What will happen if you attach an event listener to an element inside a loop?",
