@@ -292,13 +292,14 @@ body,html {
     background: #eb6a0e;
     border: 2px solid rgb(188, 180, 180);
     border-radius: 30px;
-    padding: 20px;
+    padding: 15px;
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
-    margin-top: 30px;
+    margin-top: 20px;
     width : 100%;
     font-size: 1.5rem;
+    margin-left: 30px;
 }
 
 .timer-lifelines{
@@ -373,7 +374,7 @@ h3{
     text-decoration: none;
     cursor: pointer;
   }
-  .play-again{
+   .start-game{
     background-color: #060d53;
     color: white;
     padding: 15px;
@@ -381,25 +382,8 @@ h3{
     border-color: #a7a5c0;
     font-size: large;
   }
-
-  /* scoreboard of player */
-  .scoreboard {
-    background-color: rgba(0, 0, 0, 0.7);
+  #playerName{
     padding: 20px;
     border-radius: 10px;
-    width: 80%;
-    color: white;
-    font-size: 1.5rem;
-    text-align: left;
-    margin-top: 20px;
-}
-
-.player-name {
-    font-weight: bold;
-    font-size: 1.2rem;
-}
-
-.score {
-    font-size: 1rem;
-    margin-top: 10px;
-}
+    margin-right: 20px;
+  }

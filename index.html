@@ -14,6 +14,12 @@
 <body>
     <div class="container">
         <div class="container-left">
+            <!-- Audience Poll Section -->
+            <div id="pollResults" style="display: none;"
+                <h3>Audience Poll Results:</h3>
+                <canvas id="audiencePollChart" width="400" height="300"></canvas>
+                <ul id="pollList"></ul>
+            </div>
             <div class="main">
                 <!-- Game Logo -->
                 <div class="logo">
@@ -53,7 +59,7 @@
                 </div>
                 <div class="button-container">
                     <div>
-                        <button type="button" class="restart-game">Restart Game</button>
+                        <button type="button" class="restart-game" id="restartGame">Restart Game</button>
                     </div>
                     <div>
                         <button type="button" class="next-question">Next Question</button>
@@ -64,41 +70,31 @@
 
         <div class="container-right">
             <div class="side">
+                
                 <!-- Money Ladder -->
-                <div class="progress">
-                    <div class="scoreboard">
-                        <!-- Audience Poll Section -->
-                        <div id="pollResults" style="display: none;">
-                            <h3>Audience Poll Results:</h3>
-                            <ul id="pollList"></ul>
-                        </div>
-                        <div class="player-name" id="player-name"></div>
-                        <div class="score" id="score">Score: 0</div>
-                    </div>
-                </div>
+                <div class="progress"></div>
+                <div id="scoreboard"></div>
                 <div>
                     <button type="button" class="exit-game">Exit Game</button>
                 </div>
             </div>
         </div>
-    <!-- Game End Modal -->
-    <div id="gameEndModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h1 id="emoji"></h1>
-            <h2 id="endGameHeading"></h2>
-            <p id="endGameMessage"></p>
-            
-            <!-- Player Name Input Section -->
-        <div id="nameSection" style="display: none;">
-            <h2>Enter your name to start the game</h2>
-            <input type="text" id="playerName" placeholder="Enter your name">
-            <button class="play-again" onclick="startGame()">Start Game</button>
-        </div>
+        <!-- Game End Modal -->
+        <div id="gameEndModal" class="modal">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">&times;</span>
+                <h1 id="emoji"></h1>
+                <h2 id="endGameHeading"></h2>
+                <p id="endGameMessage"></p>
 
-            <button class="play-again" onclick="resetGame()">Play Again</button>
+                <!-- Player Name Input Section -->
+                <div id="nameSection" style="display: none;">
+                    <h2></h2>
+                    <input type="text" id="playerName" placeholder="Enter your name">
+                    <button class="start-game" id="startGameBtn">Start Game</button>
+                </div>
+            </div>
         </div>
-    </div>
 </body>
 
 </html>

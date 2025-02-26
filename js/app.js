@@ -4,13 +4,88 @@
 
        1. Multiple Choice Questions: Players can select answers from four options.
        2. Timer: Players have 30 seconds to answer each question.
-       3. Lifelines: Players can use lifelines such as 50:50, Ask the Audience, and Call a Friend.
+       3. Lifelines: Players can use lifelines such as 50:50, Ask the Audience, and Friendly Hint.
        4. Scoring System: Players earn points based on the number of questions answered correctly.
        5. Audio Effects: The game features sound effects for correct and wrong answers, as well as background music. */
+
 //  ============================ 1. Initialize Game Data   ====================================
+
 // constants :
+
 const hint = document.getElementById("hint-text");
-// generateSounds
+const questionText = document.querySelector(".question-text");
+const options = document.querySelectorAll(".option");
+const nextQuestionBtn = document.querySelector(".next-question");
+//progress chart
+const progressChart = [
+    {
+      id: 1,
+      price: 0,
+    },
+    {
+      id: 2,
+      price: 100,
+    },
+    {
+      id: 3,
+      price: 200,
+    },
+    {
+      id: 4,
+      price: 300,
+    },
+    {
+      id: 5,
+      price: 500,
+    },
+    {
+      id: 6,
+      price: 1000,
+    },
+    {
+      id: 7,
+      price: 2000,
+    },
+    {
+      id: 8,
+      price: 4000,
+    },
+    {
+      id: 9,
+      price: 8000,
+    },
+    {
+      id: 10,
+      price: 16000,
+    },
+    {
+      id: 11,
+      price: 32000,
+    },
+    {
+      id: 12,
+      price: 64000,
+    },
+    {
+      id: 13,
+      price: 125000,
+    },
+    {
+      id: 14,
+      price: 250000,
+    },
+    {
+      id: 15,
+      price: 500000,
+    },
+    {
+      id: 16,
+      price: 1000000,
+    },
+  ];
+
+// generateSounds :
+
 let mainThemePlay = "";
 let wrongPlay = "";
 let correctPlay = "";
@@ -18,86 +93,8 @@ let callPlay = "";
 let fifty50Play = "";
 let audiencePlay = "";
 let inGamePlay = "";
+let playerName = "";
 
-//selectors
-const questionText = document.querySelector(".question-text");
-const options = document.querySelectorAll(".option");
-const nextQuestionBtn = document.querySelector(".next-question");
-
-// 1. Initialize player data : name
-
-const playerName = document.getElementById("name");
-
-// 2. Money Ladder : array of numbers for each questionIndex upto top prize
-
-const progressChart = [
-  {
-    id: 1,
-    price: 0,
-  },
-  {
-    id: 2,
-    price: 100,
-  },
-  {
-    id: 3,
-    price: 200,
-  },
-  {
-    id: 4,
-    price: 300,
-  },
-  {
-    id: 5,
-    price: 500,
-  },
-  {
-    id: 6,
-    price: 1000,
-  },
-  {
-    id: 7,
-    price: 2000,
-  },
-  {
-    id: 8,
-    price: 4000,
-  },
-  {
-    id: 9,
-    price: 8000,
-  },
-  {
-    id: 10,
-    price: 16000,
-  },
-  {
-    id: 11,
-    price: 32000,
-  },
-  {
-    id: 12,
-    price: 64000,
-  },
-  {
-    id: 13,
-    price: 125000,
-  },
-  {
-    id: 14,
-    price: 250000,
-  },
-  {
-    id: 15,
-    price: 500000,
-  },
-  {
-    id: 16,
-    price: 1000000,
-  },
-];
-
-// 3. create a list of questions :
 let quiz = [];
 let questionIndex = 0;
 let correctAnswersCount = 0;
@@ -121,17 +118,43 @@ const loadQuiz = () => {
     .catch((error) => console.error("Failed to load questions: ", error));
 };
 
+// first show this when loads
+window.onload = function() {
+    showNameModal();
+    showStartGameBtn();
+}
+
+function showNameModal () {
+    const modal = document.getElementById("gameEndModal");
+    const nameSection = document.getElementById("nameSection");
+
+    nameSection.style.display = "block";
+    modal.style.display = "block";
+}
+
+//play again
+function playAgain() {
+    restart();
+    playerName = localStorage.getItem("playerName");
+    showProgress(progressChart);
+    setActiveProgressScore(questionIndex);
+    closeModal();
+}
+
 //  ============================ 2. Function startGame()   ===================================
 
 const startGame = () => {
-  loadQuiz().then(() => {
+    //showing modal for starting game and getting player name
+    playerName = document.getElementById("playerName").value;
+    localStorage.setItem("playerName", playerName);
+    loadQuiz().then(() => {
     loadQuestion();
     showProgress(progressChart);
     setActiveProgressScore(questionIndex);
+    closeModal();
   });
   // mainThemePlay.play();
 };
-startGame();
 
 //  ============================  3. Load the question   ======================================
 
@@ -152,7 +175,6 @@ function loadQuestion() {
     });
     startTimer();
   } else {
-    //end game and show result
     endGame();
   }
 }
@@ -174,7 +196,7 @@ function startTimer() {
       // wrongPlay.play();
       endGame();
     }
-  }, 1000); //updates every second
+  }, 1000); 
 }
 
 //  ============================   5. Answer Selection   ======================================
@@ -191,35 +213,31 @@ function checkAnswer(event) {
       correctAnswersCount++;
       clearInterval(timer);
       setActiveProgressScore(questionIndex);
-      // nextQuestion();
+     
       nextQuestionBtn.disabled = false;
-      // Check for win condition
+      
       if (correctAnswersCount === quiz.length) {
         checkWinner();
       }
     } else {
       //   wrongPlay.play();
       selectedOption.classList.add("wrong"); // turns red
-      // to Flash the correct answer
+      
       options.forEach((option) => {
         if (option.getAttribute("data-answer") === quiz[questionIndex].answer) {
           option.classList.add("flash-correct");
         }
         clearInterval(timer);
-      endGame();
+        endGame();
       });
     }
   }
 }
 //  ============================ 6. lifelines() function   ======================================
-/*
-    1. useFiftyFifty();
-    2. useAskAudience();
-    3. usePhoneAFriend();
-*/
+
 // 1.fifty-fifty
 function useFiftyFifty(event) {
-  if (fiftyFiftyUsed) return alert("Lifeline used");
+  if (fiftyFiftyUsed) return;
   const correctAnswer = quiz[questionIndex].answer;
   let incorrectAnswers = [];
   options.forEach((option) => {
@@ -235,7 +253,7 @@ function useFiftyFifty(event) {
     incorrectAnswers.splice(randomIdx, 1);
     removeOptions++;
   }
-  //disable fifty after use
+  
   fiftyFiftyUsed = true;
   document.getElementById("fifty-fifty").disabled = true;
 }
@@ -296,9 +314,12 @@ function restart() {
   friendlyHintUsed = false;
   audiencePollUsed = false;
   nextQuestionBtn.disabled = true;
+  showProgress(progressChart);
+  setActiveProgressScore(questionIndex);
   startGame();
-  //document.getElementById('restart').style.display = 'none';
+ 
 }
+
 //  ============================ progress set show  =========================================
 
 const showProgress = (progressChart) => {
@@ -316,18 +337,9 @@ const showProgress = (progressChart) => {
       progressData += `<div class= "progressin"> $ ${item.price}</div>`;
     }
   });
-  progress.innerHTML = progressData;
+  progress.innerHTML = `ScoreBoard <br> Player: ${playerName}  ${progressData}`;
 };
 //  ============================ 6. updateScoreAndMoney function   ======================================
-
-//populate progress section
-// const populateProgressSection = () => {
-//     const questionProgressMap = progressChart.map((price, index) => ({
-//         questionNumber: index,
-//         questionAnsweredCorrectly: false,
-//         price,
-//       }));
-// }
 
 const setActiveProgressScore = (questionIndex) => {
   let currentQuestion = questionIndex + 1;
@@ -373,17 +385,10 @@ const checkWinner = () => {
 }
 
 //  ============================ 8. endGame()  ===============================================
-/*
-    function endGame()
-    STOP backgroundMusic
-    DISPLAY message "completed"
-    DISPLAY score
-    PLAY gameEndSound
-    DISPLAY restart 
-*/ function endGame() {
-    if (question.length < quiz.length){
-  showModal(false);
-    }
+
+ function endGame() {
+        clearInterval(timer);
+        showModal(false);
 }
 
 //  ============================ result message  =============================================
@@ -394,11 +399,12 @@ function showModal(isWinner) {
   const heading = document.getElementById("endGameHeading");
   const endMessage = document.getElementById("endGameMessage");
   const emoji = document.getElementById("emoji");
-
+ 
+  
   if (isWinner) {
-    emoji.textContent = "🎊🎊";
-    heading.textContent = "Congratulations!";
-    endMessage.textContent = "You won the Game";
+    emoji.textContent = "🏆";
+    heading.textContent = "🎊🎊Congratulations!🎊🎊";
+    endMessage.textContent = "You are a Millionaire!";
   } else {
     emoji.textContent = "👎👎";
     heading.textContent = "Game Over!";
@@ -406,29 +412,28 @@ function showModal(isWinner) {
   }
   modal.style.display = "block";
 }
-//funciton to close the modal
+
+//function to close the modal
 function closeModal() {
     const modal = document.getElementById("gameEndModal");
     modal.style.display = "none";
 }
-//  ============================ 10. Event Listeners  =========================================
 
-/*
-    1. for answer
-    2. for nextquestion
-    3. for restart
-    4. for lifelines - 3 buttons
-    5. for ending game
-*/
+//  ============================ 10. Event Listeners  ==============================
+
 nextQuestionBtn.addEventListener("click", nextQuestion);
-//event bubbling- adding on parent options
+document.getElementById("startGameBtn").addEventListener("click", startGame);
 document.getElementById("optionsId").addEventListener("click", checkAnswer);
 document.getElementById("fifty-fifty").addEventListener("click", useFiftyFifty);
 document.getElementById("audience-poll").addEventListener("click", useAudiencePoll);
 document.getElementById("friendly-hint").addEventListener("click", useFriendlyHint);
-//document.getElementById('restart').addEventListener('click', restartGame);
+document.getElementById('restartGame').addEventListener('click', restart);
+
 //  ============================ 11. Render  =========================================
 
 function render() {
   hint.textContent = `💡 Hint : ${quiz[questionIndex].hint}`;
 }
+
+
+//  ============================= Generate Bar chart for Audience poll =================
