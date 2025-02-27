@@ -387,3 +387,10 @@ h3{
     border-radius: 10px;
     margin-right: 20px;
   }
+
+  /* audience poll chart */
+  #audiencePollChart {
+    background-color: white;
+    display: block;
+    margin: 0 auto;
+  }

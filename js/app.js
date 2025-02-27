@@ -283,18 +283,89 @@ function useAudiencePoll(event) {
     polls[randomIdx].percentage += totalPercent;
   }
   //display poll results
-  const pollList = document.getElementById("pollList");
-  pollList.innerText = "";
-  polls.forEach((result) => {
-    const listItem = document.createElement("li");
-    listItem.innerText = `${result.option} : ${result.percentage} %`;
-    pollList.appendChild(listItem);
-  });
+//   const pollList = document.getElementById("pollList");
+//   pollList.innerText = "";
+//   polls.forEach((result) => {
+//     const listItem = document.createElement("li");
+//     listItem.innerText = `${result.option} : ${result.percentage} %`;
+//     pollList.appendChild(listItem);
+//   });
   document.getElementById("pollResults").style.display = "block";
+
+  //convert data to chart
+  const labels = polls.map((item) => item.option);
+  const data = polls.map((item) => item.percentage);
+
+  generateAudiencePollChart(labels, data);
 
   audiencePollUsed = true;
   document.getElementById("audience-poll").disabled = true;
 }
+
+//  ========== generate bar chart  ========
+
+function generateAudiencePollChart(labels, data) {
+    const ctx = document.getElementById("audiencePollChart").getContext("2d");
+    // remove previous
+    if (window.audienceChart) {
+        window.audienceChart.destroy();
+    }
+    //create
+    window.audienceChart = new Chart (ctx, {
+        type: "bar",
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                label: "Audience Poll (%)",
+                data: data,
+                backgroundColor: [
+                    "rgba(54, 162, 235, 0.6)",   
+                    "rgba(255, 99, 132, 0.6)",   
+                    "rgba(75, 192, 192, 0.6)",   
+                    "rgba(255, 206, 86, 0.6)"  
+                ],
+                borderColor: [
+                    "rgba(54, 162, 235, 1)",
+                    "rgba(255, 99, 132, 1)",
+                    "rgba(75, 192, 192, 1)",
+                    "rgba(255, 206, 86, 1)"
+                  ],
+                  borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: "percentage"
+                    }
+                }
+            }
+        }
+    });
+}
+
+// clear bar chart 
+function clearAudiencePollChart() {
+    // Check if the chart exists before trying to destroy it
+    if (window.audienceChart) {
+      window.audienceChart.destroy();
+      window.audienceChart = null;
+    }
+  
+    // Hide the canvas
+    document.getElementById("audiencePollChart").style.display = "none";
+  
+    // Clear the poll list (optional)
+    const pollList = document.getElementById("pollList");
+    pollList.innerHTML = "";
+    document.getElementById("pollResults").style.display = "none";
+  }
 
 // ================================= phone a friend or friendlyHint()  ===============================
 
@@ -316,7 +387,9 @@ function restart() {
   nextQuestionBtn.disabled = true;
   showProgress(progressChart);
   setActiveProgressScore(questionIndex);
+  document.getElementById("audiencePollChart").style.display = "none";
   startGame();
+
  
 }
 
@@ -365,6 +438,7 @@ const setActiveProgressScore = (questionIndex) => {
 
 const nextQuestion = (event) => {
   nextQuestionBtn.disabled = true;
+  clearAudiencePollChart();
   questionIndex++;
   setActiveProgressScore(questionIndex);
 
@@ -428,6 +502,7 @@ document.getElementById("fifty-fifty").addEventListener("click", useFiftyFifty);
 document.getElementById("audience-poll").addEventListener("click", useAudiencePoll);
 document.getElementById("friendly-hint").addEventListener("click", useFriendlyHint);
 document.getElementById('restartGame').addEventListener('click', restart);
+document.getElementById("audiencePollChart").style.display = "block";
 
 //  ============================ 11. Render  =========================================
 
