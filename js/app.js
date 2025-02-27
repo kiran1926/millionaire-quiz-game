@@ -11,15 +11,28 @@
 //  ============================ 1. Initialize Game Data   ====================================
 
 // constants :
-
+let quiz = [];
+let questionIndex = 0;
 const hint = document.getElementById("hint-text");
 const questionText = document.querySelector(".question-text");
 const options = document.querySelectorAll(".option");
 const nextQuestionBtn = document.querySelector(".next-question");
 const startGameBtn = document.getElementById("startGameBtn");
+const startThemeAudio = new Audio ("../assets/startGameBtn.mp3");
+const selectAnsAudio = new Audio ("../assets/optionsId.mp3");
+const correctAnswerAudio = new Audio ("../assets/nextQuestionBtn.mp3");
+const wrongAnsAudio = new Audio ("../assets/wrongAns.mp3");
+const hintAudio = new Audio ("../assets/friendly-hint.mp3");
+const fiftyFiftyAudio = new Audio ("../assets/fifty-fifty.mp3");
+const audiencePollAudio = new Audio ("../assets/audience-poll.mp3");
+const questionAudio = new Audio ("../assets/question.mp3");
+let playerName = "";
+let correctAnswersCount = 0;
+let fiftyFiftyUsed = false;
+let friendlyHintUsed = false;
+let audiencePollUsed = false;
+nextQuestionBtn.disabled = true;
 
-const audioEffects = document.querySelector(".container");
-//progress chart
 const progressChart = [
     {
       id: 1,
@@ -86,33 +99,6 @@ const progressChart = [
       price: 1000000,
     },
   ];
-
-// generateSounds :
-audioEffects.addEventListener("click", (evt) => {
-    const audioElement = new Audio (`../assets/${evt.target.id}.mp3`);
-    audioElement.volume = 0.5;
-    audioElement.play();
-});
-
-
-
-// const mainThemePlay = "";
-// const wrongPlay = "";
-// const correctPlay = "";
-// const callPlay = "";
-// const fifty50Play = "";
-// const audiencePlay = "";
-// const inGamePlay = "";
-let playerName = "";
-
-let quiz = [];
-let questionIndex = 0;
-let correctAnswersCount = 0;
-let fiftyFiftyUsed = false;
-let friendlyHintUsed = false;
-let audiencePollUsed = false;
-nextQuestionBtn.disabled = true;
-
 //  ============================== json call ========================================
 
 const loadQuiz = () => {
@@ -132,7 +118,6 @@ const loadQuiz = () => {
 // first show this when loads
 window.onload = function() {
     showNameModal();
-    showStartGameBtn();
 }
 
 function showNameModal () {
@@ -142,6 +127,11 @@ function showNameModal () {
     nameSection.style.display = "block";
     modal.style.display = "block";
 }
+
+startGameBtn.addEventListener("click", (evt) => {
+    startThemeAudio.volume = 0.5;
+    startThemeAudio.play();
+});
 
 //play again
 function playAgain() {
@@ -155,17 +145,14 @@ function playAgain() {
 //  ============================ 2. Function startGame()   ===================================
 
 const startGame = () => {
-    //showing modal for starting game and getting player name
     playerName = document.getElementById("playerName").value;
     localStorage.setItem("playerName", playerName);
-    console.log("game started");
     loadQuiz().then(() => {
     loadQuestion();
     showProgress(progressChart);
     setActiveProgressScore(questionIndex);
     closeModal();
   });
-  // mainThemePlay.play();
 };
 
 //  ============================  3. Load the question   ======================================
@@ -196,7 +183,6 @@ function loadQuestion() {
 let timer;
 function startTimer() {
   let timeLeft = 30;
-  //clear previous timer if exists
   if (timer) {
     clearInterval(timer);
   }
@@ -205,7 +191,7 @@ function startTimer() {
     timeLeft--;
     if (timeLeft < 0) {
       clearInterval(timer);
-      // wrongPlay.play();
+      wrongAnsAudio.play();
       endGame();
     }
   }, 1000); 
@@ -213,7 +199,9 @@ function startTimer() {
 
 //  ============================   5. Answer Selection   ======================================
 
+
 function checkAnswer(event) {
+    
   const selectedOption = event.target;
   if (selectedOption.classList.contains("option")) {
     const selecetedAnswer = selectedOption.getAttribute("data-answer");
@@ -221,7 +209,7 @@ function checkAnswer(event) {
     options.forEach((option) => (option.style.pointerEvents = "none")); // disable further click on other options
     if (selecetedAnswer === quiz[questionIndex].answer) {
       selectedOption.classList.add("correct"); //turn color green
-      //   correctPlay.play(); //sound
+      correctAnswerAudio.play();
       correctAnswersCount++;
       clearInterval(timer);
       setActiveProgressScore(questionIndex);
@@ -232,8 +220,8 @@ function checkAnswer(event) {
         checkWinner();
       }
     } else {
-      //   wrongPlay.play();
-      selectedOption.classList.add("wrong"); // turns red
+        wrongAnsAudio.play();
+      selectedOption.classList.add("wrong"); 
       
       options.forEach((option) => {
         if (option.getAttribute("data-answer") === quiz[questionIndex].answer) {
@@ -249,7 +237,9 @@ function checkAnswer(event) {
 
 // 1.fifty-fifty
 function useFiftyFifty(event) {
+    console.log(fiftyFiftyUsed);
   if (fiftyFiftyUsed) return;
+  fiftyFiftyAudio.play();
   const correctAnswer = quiz[questionIndex].answer;
   let incorrectAnswers = [];
   options.forEach((option) => {
@@ -273,7 +263,8 @@ function useFiftyFifty(event) {
 // 2. =================================   Audience poll  ===================================================
 
 function useAudiencePoll(event) {
-  if (audiencePollUsed) return alert("lifeline used");
+  if (audiencePollUsed) return;
+  audiencePollAudio.play();
   const correctAnswer = quiz[questionIndex].answer;
   let polls = [];
   let totalPercent = 100;
@@ -289,7 +280,7 @@ function useAudiencePoll(event) {
     polls.push({ option: option.innerText, percentage: percentage });
     totalPercent -= percentage;
   });
-  //adjust percentages to sum up 100%
+  
   if (totalPercent > 0) {
     const randomIdx = Math.floor(Math.random() * polls.length);
     polls[randomIdx].percentage += totalPercent;
@@ -311,11 +302,11 @@ function useAudiencePoll(event) {
 
 function generateAudiencePollChart(labels, data) {
     const ctx = document.getElementById("audiencePollChart").getContext("2d");
-    // remove previous
+    
     if (window.audienceChart) {
         window.audienceChart.destroy();
     }
-    //create
+   
     window.audienceChart = new Chart (ctx, {
         type: "bar",
         data: {
@@ -357,16 +348,14 @@ function generateAudiencePollChart(labels, data) {
 
 // clear bar chart 
 function clearAudiencePollChart() {
-    // Check if the chart exists before trying to destroy it
+   
     if (window.audienceChart) {
       window.audienceChart.destroy();
       window.audienceChart = null;
     }
   
-    // Hide the canvas
     document.getElementById("audiencePollChart").style.display = "none";
   
-    // Clear the poll list (optional)
     const pollList = document.getElementById("pollList");
     pollList.innerHTML = "";
     document.getElementById("pollResults").style.display = "none";
@@ -375,7 +364,8 @@ function clearAudiencePollChart() {
 // ================================= phone a friend or friendlyHint()  ===============================
 
 function useFriendlyHint(event) {
-  if (friendlyHintUsed) return alert("lifeline used");
+  if (friendlyHintUsed) return;
+  hintAudio.play();
   hint.style.display = hint.style.display === "none" ? "block" : "none";
   render();
   friendlyHintUsed = true;
@@ -385,14 +375,15 @@ function useFriendlyHint(event) {
 //  ============================ 9. Restart Game function  =====================================
 
 function restart() {
+  startGame();
   questionIndex = 0;
   fiftyFiftyUsed = false;
+  console.log(fiftyFiftyUsed);
   friendlyHintUsed = false;
   audiencePollUsed = false;
   nextQuestionBtn.disabled = true;
   showProgress(progressChart);
   setActiveProgressScore(questionIndex);
-  startGame();
   clearAudiencePollChart();
 }
 
@@ -423,12 +414,11 @@ const setActiveProgressScore = (questionIndex) => {
   let progressSetData = progress.querySelectorAll("div");
   let progressDataLength = progressSetData.length;
 
-  // Ensure the index is within the valid range
+  
   if (currentQuestion <= progressDataLength) {
-    // Remove the active class from all elements
+    
     progressSetData.forEach((div) => div.classList.remove("active"));
-
-    // Set the active class based on the question index
+    //active based on question
     progressSetData[progressDataLength - currentQuestion].classList.add(
       "active"
     );
@@ -441,6 +431,7 @@ const setActiveProgressScore = (questionIndex) => {
 
 const nextQuestion = (event) => {
   nextQuestionBtn.disabled = true;
+  questionAudio.play();
   clearAudiencePollChart();
   questionIndex++;
   setActiveProgressScore(questionIndex);
@@ -470,7 +461,6 @@ const checkWinner = () => {
 
 //  ============================ result message  =============================================
 
-//showModal message function (winner/loser)
 function showModal(isWinner) {
   const modal = document.getElementById("gameEndModal");
   const heading = document.getElementById("endGameHeading");
@@ -495,7 +485,6 @@ function showModal(isWinner) {
   modal.style.display = "block";
 }
 
-//function to close the modal
 function closeModal() {
     const modal = document.getElementById("gameEndModal");
     modal.style.display = "none";
@@ -511,7 +500,11 @@ document.getElementById("audience-poll").addEventListener("click", useAudiencePo
 document.getElementById("friendly-hint").addEventListener("click", useFriendlyHint);
 document.getElementById('restartGame').addEventListener('click', restart);
 document.getElementById("audiencePollChart").style.display = "block";
-
+document.getElementById("gameRules").addEventListener("click", (evt) => {
+    const rulesAudio = new Audio ("../assets/rules.mp3");
+    rulesAudio.play();
+    rulesAudio.volume = 0.5;
+})
 //  ============================ 11. Render  =========================================
 
 function render() {

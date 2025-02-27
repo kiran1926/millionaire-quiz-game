@@ -71,7 +71,7 @@
 
         <div class="container-right">
             <div class="side">
-                
+
                 <!-- Money Ladder -->
                 <div class="progress"></div>
                 <div id="scoreboard"></div>
@@ -90,7 +90,21 @@
 
                 <!-- Player Name Input Section -->
                 <div id="nameSection" style="display: none;">
-                    <h2></h2>
+                    <h2 id="gameName">Who Wants to Be a Millionaire?</h2>
+                    <h4 id="gameRules">Game Rules</h4>
+                    <ol>
+                        <li>Answer 15 questions to win a million.</li>
+                        <li>Each question increases in difficulty.</li>
+                        <li>You have 3 lifelines to help you - 
+                            <ul id="lifeline-rules">
+                                <li>Fifty-fifty : Eliminates 2 incorrect options</li>
+                                <li>Audience-Poll : Shows the audience's vote percentage for each option.</li>
+                                <li>Friendly-Hint : Provides a clue related to the question.</li>
+                            </ul>
+                        </li>
+                        <li>One wrong answer ends the game.</li>
+                        <li>You can quit anytime and keep your winnings.</li>
+                    </ol>
                     <input type="text" id="playerName" placeholder="Enter your name">
                     <button class="start-game" id="startGameBtn">Start Game</button>
                 </div>
