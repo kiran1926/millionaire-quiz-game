@@ -16,6 +16,9 @@ const hint = document.getElementById("hint-text");
 const questionText = document.querySelector(".question-text");
 const options = document.querySelectorAll(".option");
 const nextQuestionBtn = document.querySelector(".next-question");
+const startGameBtn = document.getElementById("startGameBtn");
+
+const audioEffects = document.querySelector(".container");
 //progress chart
 const progressChart = [
     {
@@ -85,14 +88,21 @@ const progressChart = [
   ];
 
 // generateSounds :
+audioEffects.addEventListener("click", (evt) => {
+    const audioElement = new Audio (`../assets/${evt.target.id}.mp3`);
+    audioElement.volume = 0.5;
+    audioElement.play();
+});
 
-let mainThemePlay = "";
-let wrongPlay = "";
-let correctPlay = "";
-let callPlay = "";
-let fifty50Play = "";
-let audiencePlay = "";
-let inGamePlay = "";
+
+
+// const mainThemePlay = "";
+// const wrongPlay = "";
+// const correctPlay = "";
+// const callPlay = "";
+// const fifty50Play = "";
+// const audiencePlay = "";
+// const inGamePlay = "";
 let playerName = "";
 
 let quiz = [];
@@ -102,6 +112,7 @@ let fiftyFiftyUsed = false;
 let friendlyHintUsed = false;
 let audiencePollUsed = false;
 nextQuestionBtn.disabled = true;
+
 //  ============================== json call ========================================
 
 const loadQuiz = () => {
@@ -147,6 +158,7 @@ const startGame = () => {
     //showing modal for starting game and getting player name
     playerName = document.getElementById("playerName").value;
     localStorage.setItem("playerName", playerName);
+    console.log("game started");
     loadQuiz().then(() => {
     loadQuestion();
     showProgress(progressChart);
@@ -282,14 +294,7 @@ function useAudiencePoll(event) {
     const randomIdx = Math.floor(Math.random() * polls.length);
     polls[randomIdx].percentage += totalPercent;
   }
-  //display poll results
-//   const pollList = document.getElementById("pollList");
-//   pollList.innerText = "";
-//   polls.forEach((result) => {
-//     const listItem = document.createElement("li");
-//     listItem.innerText = `${result.option} : ${result.percentage} %`;
-//     pollList.appendChild(listItem);
-//   });
+
   document.getElementById("pollResults").style.display = "block";
 
   //convert data to chart
@@ -387,10 +392,8 @@ function restart() {
   nextQuestionBtn.disabled = true;
   showProgress(progressChart);
   setActiveProgressScore(questionIndex);
-  document.getElementById("audiencePollChart").style.display = "none";
   startGame();
-
- 
+  clearAudiencePollChart();
 }
 
 //  ============================ progress set show  =========================================
@@ -473,6 +476,11 @@ function showModal(isWinner) {
   const heading = document.getElementById("endGameHeading");
   const endMessage = document.getElementById("endGameMessage");
   const emoji = document.getElementById("emoji");
+
+  const nameSection = document.getElementById("nameSection");
+
+  nameSection.style.display = "none";
+  modal.style.display = "none";
  
   
   if (isWinner) {
@@ -509,6 +517,3 @@ document.getElementById("audiencePollChart").style.display = "block";
 function render() {
   hint.textContent = `💡 Hint : ${quiz[questionIndex].hint}`;
 }
-
-
-//  ============================= Generate Bar chart for Audience poll =================

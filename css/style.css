@@ -9,14 +9,17 @@ body,html {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow-y: auto; 
 }
 
 .container{
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     gap: 20px;
     padding: 20px;
-    height: 100vh;
+    min-height: 100vh;
+    overflow-y: auto;
 }
 
 .logo-image{
@@ -44,8 +47,8 @@ body,html {
     flex: 7;
     display: flex;
     justify-content: flex-end;
-    margin-left: 140px;
-    padding-left: 20px;
+    padding-left: 140px;
+    /* padding-left: 20px; */
 }
 .main{
     display: flex;
@@ -118,12 +121,12 @@ body,html {
 }
 
 .correct {
-    background-color: #4CAF50; /* Green */
+    background-color: #4CAF50; 
     color: white;
 }
 
 .wrong {
-    background-color: #e0190b; /* Red */
+    background-color: #e0190b; 
     color: white;
 }
 
@@ -132,8 +135,8 @@ body,html {
 }
 
 @keyframes flash {
-    0% { background-color: #4ddd10; } /* Amber */
-    100% { background-color: #4CAF50; } /* Green */
+    0% { background-color: #4ddd10; } 
+    100% { background-color: #4CAF50; } 
 }
 
 .lifelines {
@@ -262,7 +265,7 @@ body,html {
 }
 
 .progress div.active {
-    background-color: #4CAF50;  /* Green background for active step */
+    background-color: #4CAF50;  
     color: white;
 }
 .button-container{
@@ -390,7 +393,100 @@ h3{
 
   /* audience poll chart */
   #audiencePollChart {
-    background-color: white;
+    background-color: rgb(230, 223, 249);
     display: block;
     margin: 0 auto;
+    border-radius: 10px;
+    color: black;
+    font-weight: bold;
+
   }
+
+  /* For tablets and smaller laptops */
+@media (max-width: 1024px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+    .container-left, 
+    .container-right {
+        width: 90%;
+        padding: 10px;
+    }
+    .logo-image {
+        width: 300px;
+    }
+    .options {
+        grid-template-columns: 1fr;
+    }
+    .question-box {
+        width: 90%;
+    }
+}
+
+/* For mobile devices */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+        overflow-y: auto; 
+        height: auto;
+    }
+    body, html {
+        overflow-y: auto;  
+    }
+    .logo-image {
+        width: 250px;
+    }
+    .question-box,
+    .options {
+        width: 100%;
+    }
+    .option {
+        font-size: 1rem;
+        padding: 10px;
+    }
+    .progress {
+        font-size: 0.9rem;
+    }
+    .next-question, .restart-game, .exit-game {
+        font-size: 1.2rem;
+        padding: 10px;
+    }
+    .lifeline-fifty-fifty, .lifeline-friendly-hint, .lifeline-audience-poll {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+/* For very small screens */
+@media (max-width: 480px) {
+    .container {
+        flex-direction: column;
+        padding: 5px;
+    }
+    .logo-image {
+        width: 200px;
+    }
+    .question-box,
+    .options {
+        width: 100%;
+    }
+    .option {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+    .timer {
+        width: 50px;
+        height: 50px;
+        line-height: 50px;
+    }
+    .next-question, .restart-game, .exit-game {
+        font-size: 1rem;
+        padding: 8px;
+    }
+}
+
+/* sscrolling */
+html {
+    scroll-behavior: smooth;
+}
