@@ -36,12 +36,17 @@
                         </div>
                         <!-- Lifelines -->
                         <div class="lifelines">
-                            <button class="lifeline-fifty-fifty" id="fifty-fifty"><img class="lifeline-icon"
-                                    src="img/fifty-fifty.webp"></button>
-                            <button class="lifeline-audience-poll" id="audience-poll"><img class="lifeline-icon"
-                                    src="img/audience_poll.webp"></button>
-                            <button class="lifeline-friendly-hint" id="friendly-hint"><img class="lifeline-icon"
-                                    src="img/phone-a-friend.webp"></button>
+                            <button class="lifeline lifeline-fifty-fifty" id="fifty-fifty" aria-label="Use Fifty-Fifty Lifeline">
+                                <img class="lifeline-icon" src="img/fifty-fifty.webp" alt="">
+                            </button>
+                        
+                            <button class="lifeline lifeline-audience-poll" id="audience-poll" aria-label="Use Audience Poll Lifeline">
+                                <img class="lifeline-icon" src="img/audience_poll.webp" alt="">
+                            </button>
+                        
+                            <button class="lifeline lifeline-friendly-hint" id="friendly-hint" aria-label="Use Friendly Hint Lifeline">
+                                <img class="lifeline-icon" src="img/phone-a-friend.webp" alt="">
+                            </button>
                         </div>
                     </div>
 
@@ -60,10 +65,10 @@
                 </div>
                 <div class="button-container">
                     <div>
-                        <button type="button" class="restart-game" id="restartGame">Restart Game</button>
+                        <button type="button" class="restart-game" id="restartGame" aria-label="Restart the game">Restart Game</button>
                     </div>
                     <div>
-                        <button type="button" class="next-question" id="nextQuestionBtn">Next Question</button>
+                        <button type="button" class="next-question" id="nextQuestionBtn" aria-label="Proceed to the next question">Next Question</button>
                     </div>
                 </div>
             </div>
@@ -76,7 +81,7 @@
                 <div class="progress"></div>
                 <div id="scoreboard"></div>
                 <div>
-                    <button type="button" class="exit-game">Exit Game</button>
+                    <button type="button" class="exit-game" aria-label="Exit the game">Exit Game</button>
                 </div>
             </div>
         </div>
@@ -106,7 +111,7 @@
                         <li>You can quit anytime and keep your winnings.</li>
                     </ol>
                     <input type="text" id="playerName" placeholder="Enter your name">
-                    <button class="start-game" id="startGameBtn">Start Game</button>
+                    <button class="start-game" id="startGameBtn" aria-label="Start the Game">Start Game</button>
                 </div>
             </div>
         </div>

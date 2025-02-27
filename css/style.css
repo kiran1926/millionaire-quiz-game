@@ -142,7 +142,7 @@ body,html {
 .lifelines {
     display: flex;
     justify-content: center;
-    gap: 50px;
+    gap: 50px; 
 }
 
 .lifeline-fifty-fifty, .lifeline-friendly-hint, .lifeline-audience-poll {
@@ -164,9 +164,34 @@ body,html {
     object-fit: contain;
 }
 
+.lifeline{
+    position: relative;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+}
 
-.lifeline:hover {
-    background: #444;
+.lifeline::after {
+    content: attr(aria-label); 
+    position: absolute;
+    bottom: -10px; 
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    color: #060d53;
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    font-size: 0.75rem;
+    visibility: hidden;
+}
+
+.lifeline:hover::after {
+    opacity: 1;
+    visibility: visible;
 }
 
 .progress {
