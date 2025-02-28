@@ -114,6 +114,7 @@ body,html {
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
+    height: 35px;
 }
 
 .option:hover {

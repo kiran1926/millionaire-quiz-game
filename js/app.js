@@ -26,6 +26,7 @@ const hintAudio = new Audio ("../assets/friendly-hint.mp3");
 const fiftyFiftyAudio = new Audio ("../assets/fifty-fifty.mp3");
 const audiencePollAudio = new Audio ("../assets/audience-poll.mp3");
 const questionAudio = new Audio ("../assets/question.mp3");
+const restartThemeAudio = new Audio ("../assets/startGameBtn.mp3");
 let playerName = "";
 let correctAnswersCount = 0;
 let fiftyFiftyUsed = false;
@@ -128,19 +129,15 @@ function showNameModal () {
     modal.style.display = "block";
 }
 
-startGameBtn.addEventListener("click", (evt) => {
-    startThemeAudio.volume = 0.5;
-    startThemeAudio.play();
-});
 
-//play again
-function playAgain() {
-    restart();
-    playerName = localStorage.getItem("playerName");
-    showProgress(progressChart);
-    setActiveProgressScore(questionIndex);
-    closeModal();
-}
+// //play again
+// function playAgain() {
+//     restart();
+//     playerName = localStorage.getItem("playerName");
+//     showProgress(progressChart);
+//     setActiveProgressScore(questionIndex);
+//     closeModal();
+// }
 
 //  ============================ 2. Function startGame()   ===================================
 
@@ -149,6 +146,7 @@ const startGame = () => {
     localStorage.setItem("playerName", playerName);
     loadQuiz().then(() => {
     loadQuestion();
+    startThemeAudio.play();
     showProgress(progressChart);
     setActiveProgressScore(questionIndex);
     closeModal();
@@ -201,14 +199,19 @@ function startTimer() {
 
 
 function checkAnswer(event) {
-    
+    startThemeAudio.pause();
+    fiftyFiftyAudio.pause();
+    audiencePollAudio.pause();
+    hintAudio.pause();
+    questionAudio.pause();
   const selectedOption = event.target;
   if (selectedOption.classList.contains("option")) {
     const selecetedAnswer = selectedOption.getAttribute("data-answer");
 
     options.forEach((option) => (option.style.pointerEvents = "none")); // disable further click on other options
     if (selecetedAnswer === quiz[questionIndex].answer) {
-      selectedOption.classList.add("correct"); //turn color green
+      selectedOption.classList.add("correct");
+       //turn color green
       correctAnswerAudio.play();
       correctAnswersCount++;
       clearInterval(timer);
@@ -220,6 +223,7 @@ function checkAnswer(event) {
         checkWinner();
       }
     } else {
+        
         wrongAnsAudio.play();
       selectedOption.classList.add("wrong"); 
       
@@ -264,6 +268,7 @@ function useFiftyFifty(event) {
 
 function useAudiencePoll(event) {
   if (audiencePollUsed) return;
+  questionAudio.pause();
   audiencePollAudio.play();
   const correctAnswer = quiz[questionIndex].answer;
   let polls = [];
@@ -375,13 +380,16 @@ function useFriendlyHint(event) {
 //  ============================ 9. Restart Game function  =====================================
 
 function restart() {
-  startGame();
   questionIndex = 0;
   fiftyFiftyUsed = false;
-  console.log(fiftyFiftyUsed);
   friendlyHintUsed = false;
   audiencePollUsed = false;
   nextQuestionBtn.disabled = true;
+  document.getElementById("audience-poll").disabled = false;
+  document.getElementById("fifty-fifty").disabled = false;
+  document.getElementById("friendly-hint").disabled = false;
+  startGame();
+  wrongAnsAudio.pause();
   showProgress(progressChart);
   setActiveProgressScore(questionIndex);
   clearAudiencePollChart();
@@ -431,6 +439,7 @@ const setActiveProgressScore = (questionIndex) => {
 
 const nextQuestion = (event) => {
   nextQuestionBtn.disabled = true;
+  correctAnswerAudio.pause();
   questionAudio.play();
   clearAudiencePollChart();
   questionIndex++;
@@ -455,6 +464,10 @@ const checkWinner = () => {
 //  ============================ 8. endGame()  ===============================================
 
  function endGame() {
+        questionAudio.pause();
+        fiftyFiftyAudio.pause();
+        audiencePollAudio.pause();
+        hintAudio.pause();
         clearInterval(timer);
         showModal(false);
 }
