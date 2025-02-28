@@ -28,6 +28,7 @@ const audiencePollAudio = new Audio("../assets/audience-poll.mp3");
 const questionAudio = new Audio("../assets/question.mp3");
 const restartThemeAudio = new Audio("../assets/startGameBtn.mp3");
 const winnerAudio = new Audio("../assets/winner.mp3");
+const exitGameAudio = new Audio("../assets/exitGame.mp3");
 let playerName = "";
 let playerScore = 0;
 let correctAnswersCount = 0;
@@ -157,6 +158,8 @@ fiftyFiftyAudio.volume = 0.07;
 audiencePollAudio.volume = 0.07;
 hintAudio.volume = 0.07;
 restartThemeAudio.volume = 0.07;
+winnerAudio.volume = 0.1;
+exitGameAudio.volume = 0.07;
 
 //  ============================ 2. Function startGame()   ===================================
 
@@ -234,7 +237,6 @@ function checkAnswer(event) {
       correctAnswersCount++;
       //update score
       playerScore = scoreMap[questionIndex];
-      console.log(playerScore);
       clearInterval(timer);
       setActiveProgressScore(questionIndex);
 
@@ -436,7 +438,6 @@ const showProgress = (progressChart) => {
     }
   });
   progress.innerHTML = `ScoreBoard <br> ${playerName} won : $ ${playerScore}  ${progressData}`;
-  console.log(playerScore);
 };
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
@@ -464,6 +465,7 @@ const nextQuestion = (event) => {
   correctAnswerAudio.pause();
   questionAudio.play();
   clearAudiencePollChart();
+  hint.style.display = "none";
   questionIndex++;
   showProgress(progressChart);
   setActiveProgressScore(questionIndex);
@@ -482,7 +484,7 @@ const checkWinner = () => {
     questionAudio.pause();
     winnerAudio.play();
 
-    showModal(true);
+    showModal(true, false);
     clearInterval(timer);
   }
 };
@@ -493,20 +495,33 @@ function endGame() {
   questionAudio.pause();
   fiftyFiftyAudio.pause();
   audiencePollAudio.pause();
+  document.getElementById("audience-poll").disabled = true;
+  document.getElementById("fifty-fifty").disabled = true;
+  document.getElementById("friendly-hint").disabled = true;
   hintAudio.pause();
   clearInterval(timer);
-  showModal(false);
+  showModal(false, false);
 }
 
 //  ============================ result message  =============================================
 
-function showModal(isWinner) {
+function calculateFinalScore(playerScore) {
+    if (playerScore < 1000) return 0;
+    if (playerScore >= 1000 && playerScore < 32000) return 1000;
+    if (playerScore >= 32000 && playerScore < 1000000) return 32000;
+    if (playerScore >= 1000000) return playerScore;
+  }
+
+function showModal(isWinner, isExit) {
   const modal = document.getElementById("gameEndModal");
   const heading = document.getElementById("endGameHeading");
   const endMessage = document.getElementById("endGameMessage");
   const emoji = document.getElementById("emoji");
 
   const nameSection = document.getElementById("nameSection");
+  
+  const finalScore = calculateFinalScore(playerScore).toLocaleString();
+  playerScore = playerScore.toLocaleString();
 
   nameSection.style.display = "none";
   modal.style.display = "none";
@@ -514,12 +529,15 @@ function showModal(isWinner) {
   if (isWinner) {
     emoji.textContent = "🏆";
     heading.textContent = "🎊🎊Congratulations!🎊🎊";
-    endMessage.textContent = `You are a Millionaire! Your score is $ ${playerScore}`;
+    endMessage.textContent = `${playerName} , you are a Millionaire! You won $ ${playerScore}`;
   } else {
-    emoji.textContent = "👎👎";
+    emoji.textContent = "😞😞";
     heading.textContent = "Game Over!";
-    endMessage.textContent = "Better luck next time!";
-  }
+    endMessage.textContent = isExit 
+    ? `${playerName} exited the game with $ ${playerScore}.`
+    : `${playerName} won $ ${finalScore}. Better luck next time!`;
+}
+  
   modal.style.display = "block";
 }
 
@@ -528,10 +546,19 @@ function closeModal() {
   modal.style.display = "none";
   winnerAudio.pause();
   wrongAnsAudio.pause();
+  exitGameAudio.pause();
 }
+ 
+// =========================== Exit function  ===================================
 
 function exitGame(event) {
-  endGame();
+    questionAudio.pause();
+    audiencePollAudio.pause();
+    fiftyFiftyAudio.pause();
+    hintAudio.pause();
+    exitGameAudio.play();
+    endGame();
+    showModal(false, true);
 }
 
 //  ============================ 10. Event Listeners  ==============================
@@ -551,7 +578,12 @@ document.getElementById("exitGame").addEventListener("click", exitGame);
 document.getElementById("audiencePollChart").style.display = "block";
 document.getElementById("gameRules").addEventListener("click", (evt) => {
   const rulesAudio = new Audio("../assets/rules.mp3");
-  rulesAudio.play();
+  rulesAudio.play().then(() => {
+    setTimeout(() => {
+      rulesAudio.pause();
+      rulesAudio.currentTime = 0;
+    }, 10000);
+  });
   rulesAudio.volume = 0.1;
 });
 //  ============================ 11. Render  =========================================

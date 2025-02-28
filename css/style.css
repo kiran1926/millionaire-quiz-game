@@ -114,7 +114,7 @@ body,html {
     cursor: pointer;
     transition: background 0.3s;
     color: #fff;
-    height: 35px;
+    height: 45px;
 }
 
 .option:hover {
@@ -534,4 +534,8 @@ h3{
 /* sscrolling */
 html {
     scroll-behavior: smooth;
+}
+
+#endGameMessage{
+    font-size: 1.5rem;
 }
