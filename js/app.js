@@ -18,17 +18,16 @@ const questionText = document.querySelector(".question-text");
 const options = document.querySelectorAll(".option");
 const nextQuestionBtn = document.querySelector(".next-question");
 const startGameBtn = document.getElementById("startGameBtn");
-const startThemeAudio = new Audio("../assets/startGameBtn.mp3");
-const selectAnsAudio = new Audio("../assets/optionsId.mp3");
-const correctAnswerAudio = new Audio("../assets/nextQuestionBtn.mp3");
-const wrongAnsAudio = new Audio("../assets/wrongAns.mp3");
-const hintAudio = new Audio("../assets/friendly-hint.mp3");
-const fiftyFiftyAudio = new Audio("../assets/fifty-fifty.mp3");
-const audiencePollAudio = new Audio("../assets/audience-poll.mp3");
-const questionAudio = new Audio("../assets/question.mp3");
-const restartThemeAudio = new Audio("../assets/startGameBtn.mp3");
-const winnerAudio = new Audio("../assets/winner.mp3");
-const exitGameAudio = new Audio("../assets/exitGame.mp3");
+const startThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3");
+const correctAnswerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/nextQuestionBtn.mp3");
+const wrongAnsAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/wrongAns.mp3");
+const hintAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/friendly-hint.mp3");
+const fiftyFiftyAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/fifty-fifty.mp3");
+const audiencePollAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/audience-poll.mp3");
+const questionAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/question.mp3");
+const restartThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3");
+const winnerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/winner.mp3");
+const exitGameAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/exitGame.mp3");
 let playerName = "";
 let playerScore = 0;
 let correctAnswersCount = 0;
@@ -304,7 +303,7 @@ function useAudiencePoll(event) {
     if (option.innerText.trim() === "") return;
     let percentage;
     if (option.getAttribute("data-answer") === correctAnswer) {
-      percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent
+      percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent possibilit
     } else {
       percentage = Math.floor(Math.random() * 40); // incorrect from 0 to 40 percent
     }
@@ -577,7 +576,7 @@ document.getElementById("restartGame").addEventListener("click", restart);
 document.getElementById("exitGame").addEventListener("click", exitGame);
 document.getElementById("audiencePollChart").style.display = "block";
 document.getElementById("gameRules").addEventListener("click", (evt) => {
-  const rulesAudio = new Audio("../assets/rules.mp3");
+  const rulesAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/rules.mp3");
   rulesAudio.play().then(() => {
     setTimeout(() => {
       rulesAudio.pause();
