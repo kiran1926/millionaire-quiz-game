@@ -18,16 +18,16 @@ const questionText = document.querySelector(".question-text");
 const options = document.querySelectorAll(".option");
 const nextQuestionBtn = document.querySelector(".next-question");
 const startGameBtn = document.getElementById("startGameBtn");
-const startThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3");
-const correctAnswerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/nextQuestionBtn.mp3");
-const wrongAnsAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/wrongAns.mp3");
-const hintAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/friendly-hint.mp3");
-const fiftyFiftyAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/fifty-fifty.mp3");
-const audiencePollAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/audience-poll.mp3");
-const questionAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/question.mp3");
-const restartThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3");
-const winnerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/winner.mp3");
-const exitGameAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/exitGame.mp3");
+const startThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3?raw=true");
+const correctAnswerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/nextQuestionBtn.mp3?raw=true");
+const wrongAnsAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/wrongAns.mp3?raw=true");
+const hintAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/friendly-hint.mp3?raw=true");
+const fiftyFiftyAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/fifty-fifty.mp3?raw=true");
+const audiencePollAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/audience-poll.mp3?raw=true");
+const questionAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/question.mp3?raw=true");
+const restartThemeAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/startGameBtn.mp3?raw=true");
+const winnerAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/winner.mp3?raw=true");
+const exitGameAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/exitGame.mp3?raw=true");
 let playerName = "";
 let playerScore = 0;
 let correctAnswersCount = 0;
@@ -160,7 +160,7 @@ restartThemeAudio.volume = 0.07;
 winnerAudio.volume = 0.1;
 exitGameAudio.volume = 0.07;
 
-//  ============================ 2. Function startGame()   ===================================
+//  ============================  Function startGame()   ===================================
 
 const startGame = () => {
   playerName = document.getElementById("playerName").value;
@@ -174,7 +174,7 @@ const startGame = () => {
   });
 };
 
-//  ============================  3. Load the question   ======================================
+//  ============================   Load the question   ======================================
 
 function loadQuestion() {
   if (questionIndex < quiz.length) {
@@ -197,7 +197,7 @@ function loadQuestion() {
   }
 }
 
-//  ============================   4. startTimer()  ===========================================
+//  ============================    startTimer()  ===========================================
 
 let timer;
 function startTimer() {
@@ -216,7 +216,7 @@ function startTimer() {
   }, 1000);
 }
 
-//  ============================   5. Answer Selection   ======================================
+//  ============================    Answer Selection   ======================================
 
 function checkAnswer(event) {
   startThemeAudio.pause();
@@ -258,7 +258,7 @@ function checkAnswer(event) {
     }
   }
 }
-//  ============================ 6. lifelines() function   ======================================
+//  ============================  lifelines() function   ======================================
 
 // 1.fifty-fifty
 function useFiftyFifty(event) {
@@ -401,7 +401,7 @@ function useFriendlyHint(event) {
   document.getElementById("friendly-hint").disabled = true;
 }
 
-//  ============================ 9. Restart Game function  =====================================
+//  ============================  Restart Game function  =====================================
 
 function restart() {
   questionIndex = 0;
@@ -438,7 +438,7 @@ const showProgress = (progressChart) => {
   });
   progress.innerHTML = `ScoreBoard <br> ${playerName} won : $ ${playerScore}  ${progressData}`;
 };
-//  ============================ 6. updateScoreAndMoney function   ======================================
+//  ============================  updateScoreAndMoney function   ======================================
 
 const setActiveProgressScore = (questionIndex) => {
   let currentQuestion = questionIndex + 1;
@@ -457,7 +457,7 @@ const setActiveProgressScore = (questionIndex) => {
   }
 };
 
-//  ============================ 7. nextQuestion function  =====================================
+//  ============================  nextQuestion function  =====================================
 
 const nextQuestion = (event) => {
   nextQuestionBtn.disabled = true;
@@ -476,7 +476,7 @@ const nextQuestion = (event) => {
   }
 };
 
-//  ============================ 8. checkWinner  ===============================================
+//  ============================  checkWinner  ===============================================
 
 const checkWinner = () => {
   if (questionIndex === quiz.length) {
@@ -488,7 +488,7 @@ const checkWinner = () => {
   }
 };
 
-//  ============================ 8. endGame()  ===============================================
+//  ============================  endGame()  ===============================================
 
 function endGame() {
   questionAudio.pause();
@@ -560,7 +560,7 @@ function exitGame(event) {
     showModal(false, true);
 }
 
-//  ============================ 10. Event Listeners  ==============================
+//  ============================  Event Listeners  ==============================
 
 nextQuestionBtn.addEventListener("click", nextQuestion);
 document.getElementById("startGameBtn").addEventListener("click", startGame);
@@ -576,7 +576,7 @@ document.getElementById("restartGame").addEventListener("click", restart);
 document.getElementById("exitGame").addEventListener("click", exitGame);
 document.getElementById("audiencePollChart").style.display = "block";
 document.getElementById("gameRules").addEventListener("click", (evt) => {
-  const rulesAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/rules.mp3");
+  const rulesAudio = new Audio("https://github.com/kiran1926/millionaire-quiz-game/blob/main/assets/rules.mp3?raw=true");
   rulesAudio.play().then(() => {
     setTimeout(() => {
       rulesAudio.pause();
@@ -585,7 +585,7 @@ document.getElementById("gameRules").addEventListener("click", (evt) => {
   });
   rulesAudio.volume = 0.1;
 });
-//  ============================ 11. Render  =========================================
+//  ============================  Render  =========================================
 
 function render() {
   hint.textContent = `💡 Hint : ${quiz[questionIndex].hint}`;
