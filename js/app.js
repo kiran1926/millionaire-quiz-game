@@ -28,6 +28,7 @@ const audiencePollAudio = new Audio ("../assets/audience-poll.mp3");
 const questionAudio = new Audio ("../assets/question.mp3");
 const restartThemeAudio = new Audio ("../assets/startGameBtn.mp3");
 let playerName = "";
+let playerScore = 0 ;
 let correctAnswersCount = 0;
 let fiftyFiftyUsed = false;
 let friendlyHintUsed = false;
@@ -100,6 +101,24 @@ const progressChart = [
       price: 1000000,
     },
   ];
+
+  const scoreMap = {
+    0: 100,      // Question 1 - $0
+    1: 200,    // Question 2 - $100
+    2: 300,    // Question 3 - $200
+    3: 500,    // Question 4 - $300
+    4: 1000,    // Question 5 - $500
+    5: 2000,   // Question 6 - $1000
+    6: 4000,   // Question 7 - $2000
+    7: 8000,   // Question 8 - $4000
+    8: 16000,   // Question 9 - $8000
+    9: 32000,  // Question 10 - $16000
+    10: 64000, // Question 11 - $32000
+    11: 125000, // Question 12 - $64000
+    12: 250000,// Question 13 - $125000
+    13: 500000,// Question 14 - $250000
+    14: 1000000,// Question 15 - $500000
+};
 //  ============================== json call ========================================
 
 const loadQuiz = () => {
@@ -128,16 +147,6 @@ function showNameModal () {
     nameSection.style.display = "block";
     modal.style.display = "block";
 }
-
-
-// //play again
-// function playAgain() {
-//     restart();
-//     playerName = localStorage.getItem("playerName");
-//     showProgress(progressChart);
-//     setActiveProgressScore(questionIndex);
-//     closeModal();
-// }
 
 //  ============================ 2. Function startGame()   ===================================
 
@@ -206,14 +215,17 @@ function checkAnswer(event) {
     questionAudio.pause();
   const selectedOption = event.target;
   if (selectedOption.classList.contains("option")) {
-    const selecetedAnswer = selectedOption.getAttribute("data-answer");
+    const selectedAnswer = selectedOption.getAttribute("data-answer");
 
     options.forEach((option) => (option.style.pointerEvents = "none")); // disable further click on other options
-    if (selecetedAnswer === quiz[questionIndex].answer) {
+    if (selectedAnswer === quiz[questionIndex].answer) {
       selectedOption.classList.add("correct");
        //turn color green
       correctAnswerAudio.play();
       correctAnswersCount++;
+      //update score
+      playerScore = scoreMap[questionIndex];
+      console.log(playerScore);
       clearInterval(timer);
       setActiveProgressScore(questionIndex);
      
@@ -412,7 +424,8 @@ const showProgress = (progressChart) => {
       progressData += `<div class= "progressin"> $ ${item.price}</div>`;
     }
   });
-  progress.innerHTML = `ScoreBoard <br> Player: ${playerName}  ${progressData}`;
+  progress.innerHTML = `ScoreBoard <br> ${playerName} won : $ ${playerScore}  ${progressData}`;
+  console.log(playerScore);
 };
 //  ============================ 6. updateScoreAndMoney function   ======================================
 
@@ -489,7 +502,7 @@ function showModal(isWinner) {
   if (isWinner) {
     emoji.textContent = "🏆";
     heading.textContent = "🎊🎊Congratulations!🎊🎊";
-    endMessage.textContent = "You are a Millionaire!";
+    endMessage.textContent = `You are a Millionaire! Your score is $ ${playerScore}`;
   } else {
     emoji.textContent = "👎👎";
     heading.textContent = "Game Over!";
@@ -503,6 +516,11 @@ function closeModal() {
     modal.style.display = "none";
 }
 
+function exitGame (event) {
+    endGame();
+    
+}
+
 //  ============================ 10. Event Listeners  ==============================
 
 nextQuestionBtn.addEventListener("click", nextQuestion);
@@ -512,6 +530,7 @@ document.getElementById("fifty-fifty").addEventListener("click", useFiftyFifty);
 document.getElementById("audience-poll").addEventListener("click", useAudiencePoll);
 document.getElementById("friendly-hint").addEventListener("click", useFriendlyHint);
 document.getElementById('restartGame').addEventListener('click', restart);
+document.getElementById("exitGame").addEventListener("click", exitGame);
 document.getElementById("audiencePollChart").style.display = "block";
 document.getElementById("gameRules").addEventListener("click", (evt) => {
     const rulesAudio = new Audio ("../assets/rules.mp3");
