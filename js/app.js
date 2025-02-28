@@ -18,17 +18,18 @@ const questionText = document.querySelector(".question-text");
 const options = document.querySelectorAll(".option");
 const nextQuestionBtn = document.querySelector(".next-question");
 const startGameBtn = document.getElementById("startGameBtn");
-const startThemeAudio = new Audio ("../assets/startGameBtn.mp3");
-const selectAnsAudio = new Audio ("../assets/optionsId.mp3");
-const correctAnswerAudio = new Audio ("../assets/nextQuestionBtn.mp3");
-const wrongAnsAudio = new Audio ("../assets/wrongAns.mp3");
-const hintAudio = new Audio ("../assets/friendly-hint.mp3");
-const fiftyFiftyAudio = new Audio ("../assets/fifty-fifty.mp3");
-const audiencePollAudio = new Audio ("../assets/audience-poll.mp3");
-const questionAudio = new Audio ("../assets/question.mp3");
-const restartThemeAudio = new Audio ("../assets/startGameBtn.mp3");
+const startThemeAudio = new Audio("../assets/startGameBtn.mp3");
+const selectAnsAudio = new Audio("../assets/optionsId.mp3");
+const correctAnswerAudio = new Audio("../assets/nextQuestionBtn.mp3");
+const wrongAnsAudio = new Audio("../assets/wrongAns.mp3");
+const hintAudio = new Audio("../assets/friendly-hint.mp3");
+const fiftyFiftyAudio = new Audio("../assets/fifty-fifty.mp3");
+const audiencePollAudio = new Audio("../assets/audience-poll.mp3");
+const questionAudio = new Audio("../assets/question.mp3");
+const restartThemeAudio = new Audio("../assets/startGameBtn.mp3");
+const winnerAudio = new Audio("../assets/winner.mp3");
 let playerName = "";
-let playerScore = 0 ;
+let playerScore = 0;
 let correctAnswersCount = 0;
 let fiftyFiftyUsed = false;
 let friendlyHintUsed = false;
@@ -36,88 +37,88 @@ let audiencePollUsed = false;
 nextQuestionBtn.disabled = true;
 
 const progressChart = [
-    {
-      id: 1,
-      price: 0,
-    },
-    {
-      id: 2,
-      price: 100,
-    },
-    {
-      id: 3,
-      price: 200,
-    },
-    {
-      id: 4,
-      price: 300,
-    },
-    {
-      id: 5,
-      price: 500,
-    },
-    {
-      id: 6,
-      price: 1000,
-    },
-    {
-      id: 7,
-      price: 2000,
-    },
-    {
-      id: 8,
-      price: 4000,
-    },
-    {
-      id: 9,
-      price: 8000,
-    },
-    {
-      id: 10,
-      price: 16000,
-    },
-    {
-      id: 11,
-      price: 32000,
-    },
-    {
-      id: 12,
-      price: 64000,
-    },
-    {
-      id: 13,
-      price: 125000,
-    },
-    {
-      id: 14,
-      price: 250000,
-    },
-    {
-      id: 15,
-      price: 500000,
-    },
-    {
-      id: 16,
-      price: 1000000,
-    },
-  ];
+  {
+    id: 1,
+    price: 0,
+  },
+  {
+    id: 2,
+    price: 100,
+  },
+  {
+    id: 3,
+    price: 200,
+  },
+  {
+    id: 4,
+    price: 300,
+  },
+  {
+    id: 5,
+    price: 500,
+  },
+  {
+    id: 6,
+    price: 1000,
+  },
+  {
+    id: 7,
+    price: 2000,
+  },
+  {
+    id: 8,
+    price: 4000,
+  },
+  {
+    id: 9,
+    price: 8000,
+  },
+  {
+    id: 10,
+    price: 16000,
+  },
+  {
+    id: 11,
+    price: 32000,
+  },
+  {
+    id: 12,
+    price: 64000,
+  },
+  {
+    id: 13,
+    price: 125000,
+  },
+  {
+    id: 14,
+    price: 250000,
+  },
+  {
+    id: 15,
+    price: 500000,
+  },
+  {
+    id: 16,
+    price: 1000000,
+  },
+];
 
-  const scoreMap = {
-    0: 100,      // Question 1 - $0
-    1: 200,    // Question 2 - $100
-    2: 300,    // Question 3 - $200
-    3: 500,    // Question 4 - $300
-    4: 1000,    // Question 5 - $500
-    5: 2000,   // Question 6 - $1000
-    6: 4000,   // Question 7 - $2000
-    7: 8000,   // Question 8 - $4000
-    8: 16000,   // Question 9 - $8000
-    9: 32000,  // Question 10 - $16000
-    10: 64000, // Question 11 - $32000
-    11: 125000, // Question 12 - $64000
-    12: 250000,// Question 13 - $125000
-    13: 500000,// Question 14 - $250000
-    14: 1000000,// Question 15 - $500000
+const scoreMap = {
+  0: 100, // Question 1 - $0
+  1: 200, // Question 2 - $100
+  2: 300, // Question 3 - $200
+  3: 500, // Question 4 - $300
+  4: 1000, // Question 5 - $500
+  5: 2000, // Question 6 - $1000
+  6: 4000, // Question 7 - $2000
+  7: 8000, // Question 8 - $4000
+  8: 16000, // Question 9 - $8000
+  9: 32000, // Question 10 - $16000
+  10: 64000, // Question 11 - $32000
+  11: 125000, // Question 12 - $64000
+  12: 250000, // Question 13 - $125000
+  13: 500000, // Question 14 - $250000
+  14: 1000000, // Question 15 - $500000
 };
 //  ============================== json call ========================================
 
@@ -136,24 +137,33 @@ const loadQuiz = () => {
 };
 
 // first show this when loads
-window.onload = function() {
-    showNameModal();
+window.onload = function () {
+  showNameModal();
+};
+
+function showNameModal() {
+  const modal = document.getElementById("gameEndModal");
+  const nameSection = document.getElementById("nameSection");
+  nameSection.style.display = "block";
+  modal.style.display = "block";
 }
 
-function showNameModal () {
-    const modal = document.getElementById("gameEndModal");
-    const nameSection = document.getElementById("nameSection");
-
-    nameSection.style.display = "block";
-    modal.style.display = "block";
-}
+// ============================= setting the volume  ========================================
+startThemeAudio.volume = 0.07;
+correctAnswerAudio.volume = 0.07;
+wrongAnsAudio.volume = 0.07;
+questionAudio.volume = 0.07;
+fiftyFiftyAudio.volume = 0.07;
+audiencePollAudio.volume = 0.07;
+hintAudio.volume = 0.07;
+restartThemeAudio.volume = 0.07;
 
 //  ============================ 2. Function startGame()   ===================================
 
 const startGame = () => {
-    playerName = document.getElementById("playerName").value;
-    localStorage.setItem("playerName", playerName);
-    loadQuiz().then(() => {
+  playerName = document.getElementById("playerName").value;
+  localStorage.setItem("playerName", playerName);
+  loadQuiz().then(() => {
     loadQuestion();
     startThemeAudio.play();
     showProgress(progressChart);
@@ -201,18 +211,17 @@ function startTimer() {
       wrongAnsAudio.play();
       endGame();
     }
-  }, 1000); 
+  }, 1000);
 }
 
 //  ============================   5. Answer Selection   ======================================
 
-
 function checkAnswer(event) {
-    startThemeAudio.pause();
-    fiftyFiftyAudio.pause();
-    audiencePollAudio.pause();
-    hintAudio.pause();
-    questionAudio.pause();
+  startThemeAudio.pause();
+  fiftyFiftyAudio.pause();
+  audiencePollAudio.pause();
+  hintAudio.pause();
+  questionAudio.pause();
   const selectedOption = event.target;
   if (selectedOption.classList.contains("option")) {
     const selectedAnswer = selectedOption.getAttribute("data-answer");
@@ -220,7 +229,7 @@ function checkAnswer(event) {
     options.forEach((option) => (option.style.pointerEvents = "none")); // disable further click on other options
     if (selectedAnswer === quiz[questionIndex].answer) {
       selectedOption.classList.add("correct");
-       //turn color green
+      //turn color green
       correctAnswerAudio.play();
       correctAnswersCount++;
       //update score
@@ -228,17 +237,16 @@ function checkAnswer(event) {
       console.log(playerScore);
       clearInterval(timer);
       setActiveProgressScore(questionIndex);
-     
+
       nextQuestionBtn.disabled = false;
-      
+
       if (correctAnswersCount === quiz.length) {
         checkWinner();
       }
     } else {
-        
-        wrongAnsAudio.play();
-      selectedOption.classList.add("wrong"); 
-      
+      wrongAnsAudio.play();
+      selectedOption.classList.add("wrong");
+
       options.forEach((option) => {
         if (option.getAttribute("data-answer") === quiz[questionIndex].answer) {
           option.classList.add("flash-correct");
@@ -253,7 +261,7 @@ function checkAnswer(event) {
 
 // 1.fifty-fifty
 function useFiftyFifty(event) {
-    console.log(fiftyFiftyUsed);
+  console.log(fiftyFiftyUsed);
   if (fiftyFiftyUsed) return;
   fiftyFiftyAudio.play();
   const correctAnswer = quiz[questionIndex].answer;
@@ -271,7 +279,7 @@ function useFiftyFifty(event) {
     incorrectAnswers.splice(randomIdx, 1);
     removeOptions++;
   }
-  
+
   fiftyFiftyUsed = true;
   document.getElementById("fifty-fifty").disabled = true;
 }
@@ -282,6 +290,10 @@ function useAudiencePoll(event) {
   if (audiencePollUsed) return;
   questionAudio.pause();
   audiencePollAudio.play();
+
+  document.getElementById("audiencePollChart").style.display = "block";
+  document.getElementById("pollResults").style.display = "block";
+
   const correctAnswer = quiz[questionIndex].answer;
   let polls = [];
   let totalPercent = 100;
@@ -297,7 +309,7 @@ function useAudiencePoll(event) {
     polls.push({ option: option.innerText, percentage: percentage });
     totalPercent -= percentage;
   });
-  
+
   if (totalPercent > 0) {
     const randomIdx = Math.floor(Math.random() * polls.length);
     polls[randomIdx].percentage += totalPercent;
@@ -318,65 +330,64 @@ function useAudiencePoll(event) {
 //  ========== generate bar chart  ========
 
 function generateAudiencePollChart(labels, data) {
-    const ctx = document.getElementById("audiencePollChart").getContext("2d");
-    
-    if (window.audienceChart) {
-        window.audienceChart.destroy();
-    }
-   
-    window.audienceChart = new Chart (ctx, {
-        type: "bar",
-        data: {
-            labels: labels,
-            datasets: [
-                {
-                label: "Audience Poll (%)",
-                data: data,
-                backgroundColor: [
-                    "rgba(54, 162, 235, 0.6)",   
-                    "rgba(255, 99, 132, 0.6)",   
-                    "rgba(75, 192, 192, 0.6)",   
-                    "rgba(255, 206, 86, 0.6)"  
-                ],
-                borderColor: [
-                    "rgba(54, 162, 235, 1)",
-                    "rgba(255, 99, 132, 1)",
-                    "rgba(75, 192, 192, 1)",
-                    "rgba(255, 206, 86, 1)"
-                  ],
-                  borderWidth: 1
-                }
-            ]
+  const ctx = document.getElementById("audiencePollChart").getContext("2d");
+
+  if (window.audienceChart) {
+    window.audienceChart.destroy();
+  }
+
+  window.audienceChart = new Chart(ctx, {
+    type: "bar",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Audience Poll (%)",
+          data: data,
+          backgroundColor: [
+            "rgba(54, 162, 235, 0.6)",
+            "rgba(255, 99, 132, 0.6)",
+            "rgba(75, 192, 192, 0.6)",
+            "rgba(255, 206, 86, 0.6)",
+          ],
+          borderColor: [
+            "rgba(54, 162, 235, 1)",
+            "rgba(255, 99, 132, 1)",
+            "rgba(75, 192, 192, 1)",
+            "rgba(255, 206, 86, 1)",
+          ],
+          borderWidth: 1,
         },
-        options: {
-            scales: {
-                y: {
-                    beginZero: true,
-                    max: 100,
-                    title: {
-                        display: true,
-                        text: "percentage"
-                    }
-                }
-            }
-        }
-    });
+      ],
+    },
+    options: {
+      scales: {
+        y: {
+          beginZero: true,
+          max: 100,
+          title: {
+            display: true,
+            text: "percentage",
+          },
+        },
+      },
+    },
+  });
 }
 
-// clear bar chart 
+// clear bar chart
 function clearAudiencePollChart() {
-   
-    if (window.audienceChart) {
-      window.audienceChart.destroy();
-      window.audienceChart = null;
-    }
-  
-    document.getElementById("audiencePollChart").style.display = "none";
-  
-    const pollList = document.getElementById("pollList");
-    pollList.innerHTML = "";
-    document.getElementById("pollResults").style.display = "none";
+  if (window.audienceChart) {
+    window.audienceChart.destroy();
+    window.audienceChart = null;
   }
+
+  document.getElementById("audiencePollChart").style.display = "none";
+
+  const pollList = document.getElementById("pollList");
+  pollList.innerHTML = "";
+  document.getElementById("pollResults").style.display = "none";
+}
 
 // ================================= phone a friend or friendlyHint()  ===============================
 
@@ -435,9 +446,7 @@ const setActiveProgressScore = (questionIndex) => {
   let progressSetData = progress.querySelectorAll("div");
   let progressDataLength = progressSetData.length;
 
-  
   if (currentQuestion <= progressDataLength) {
-    
     progressSetData.forEach((div) => div.classList.remove("active"));
     //active based on question
     progressSetData[progressDataLength - currentQuestion].classList.add(
@@ -456,6 +465,7 @@ const nextQuestion = (event) => {
   questionAudio.play();
   clearAudiencePollChart();
   questionIndex++;
+  showProgress(progressChart);
   setActiveProgressScore(questionIndex);
 
   if (questionIndex < quiz.length) {
@@ -468,21 +478,24 @@ const nextQuestion = (event) => {
 //  ============================ 8. checkWinner  ===============================================
 
 const checkWinner = () => {
-    if ( questionIndex === quiz.length){
-        showModal(true);
-        clearInterval(timer);
-    }
-}
+  if (questionIndex === quiz.length) {
+    questionAudio.pause();
+    winnerAudio.play();
+
+    showModal(true);
+    clearInterval(timer);
+  }
+};
 
 //  ============================ 8. endGame()  ===============================================
 
- function endGame() {
-        questionAudio.pause();
-        fiftyFiftyAudio.pause();
-        audiencePollAudio.pause();
-        hintAudio.pause();
-        clearInterval(timer);
-        showModal(false);
+function endGame() {
+  questionAudio.pause();
+  fiftyFiftyAudio.pause();
+  audiencePollAudio.pause();
+  hintAudio.pause();
+  clearInterval(timer);
+  showModal(false);
 }
 
 //  ============================ result message  =============================================
@@ -497,8 +510,7 @@ function showModal(isWinner) {
 
   nameSection.style.display = "none";
   modal.style.display = "none";
- 
-  
+
   if (isWinner) {
     emoji.textContent = "🏆";
     heading.textContent = "🎊🎊Congratulations!🎊🎊";
@@ -512,13 +524,14 @@ function showModal(isWinner) {
 }
 
 function closeModal() {
-    const modal = document.getElementById("gameEndModal");
-    modal.style.display = "none";
+  const modal = document.getElementById("gameEndModal");
+  modal.style.display = "none";
+  winnerAudio.pause();
+  wrongAnsAudio.pause();
 }
 
-function exitGame (event) {
-    endGame();
-    
+function exitGame(event) {
+  endGame();
 }
 
 //  ============================ 10. Event Listeners  ==============================
@@ -527,16 +540,20 @@ nextQuestionBtn.addEventListener("click", nextQuestion);
 document.getElementById("startGameBtn").addEventListener("click", startGame);
 document.getElementById("optionsId").addEventListener("click", checkAnswer);
 document.getElementById("fifty-fifty").addEventListener("click", useFiftyFifty);
-document.getElementById("audience-poll").addEventListener("click", useAudiencePoll);
-document.getElementById("friendly-hint").addEventListener("click", useFriendlyHint);
-document.getElementById('restartGame').addEventListener('click', restart);
+document
+  .getElementById("audience-poll")
+  .addEventListener("click", useAudiencePoll);
+document
+  .getElementById("friendly-hint")
+  .addEventListener("click", useFriendlyHint);
+document.getElementById("restartGame").addEventListener("click", restart);
 document.getElementById("exitGame").addEventListener("click", exitGame);
 document.getElementById("audiencePollChart").style.display = "block";
 document.getElementById("gameRules").addEventListener("click", (evt) => {
-    const rulesAudio = new Audio ("../assets/rules.mp3");
-    rulesAudio.play();
-    rulesAudio.volume = 0.5;
-})
+  const rulesAudio = new Audio("../assets/rules.mp3");
+  rulesAudio.play();
+  rulesAudio.volume = 0.1;
+});
 //  ============================ 11. Render  =========================================
 
 function render() {
