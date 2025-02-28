@@ -304,7 +304,7 @@ function useAudiencePoll(event) {
     if (option.innerText.trim() === "") return;
     let percentage;
     if (option.getAttribute("data-answer") === correctAnswer) {
-      percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent possibility
+      percentage = Math.floor(Math.random() * 30) + 30; // correct answer from 30 to 60 percent
     } else {
       percentage = Math.floor(Math.random() * 40); // incorrect from 0 to 40 percent
     }
