@@ -6,6 +6,8 @@ Welcome to the **Who Wants To Be A Millionaire? A Quiz Game**, an interactive we
 - **Frontend:** HTML5, CSS3, JavaScript (ES6+)
 - **Audio Effects:** Game sounds and event-specific audio cues for an immersive experience
 
+## 🔗 Play the game here : [Who Wants To Be A Millionaire](https://kiran1926.github.io/millionaire-quiz-game/)
+
 ## ✨ Features
 ### 🔑 Game Flow
 - Progressive question levels with increasing difficulty
