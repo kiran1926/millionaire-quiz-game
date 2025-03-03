@@ -65,6 +65,9 @@ Welcome to the **Who Wants To Be A Millionaire? A Quiz Game**, an interactive we
 - Smooth transitions and animations for a dynamic gameplay experience
 - Responsive design compatible with desktop and mobile browsers
 
+## Attributions
+- This project uses the Chart.js library for data visualization.
+
 ## 🚀 How to Run the Game
 1. Clone the repository:
     ```sh
