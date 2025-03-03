@@ -79,6 +79,11 @@ Welcome to the **Who Wants To Be A Millionaire? A Quiz Game**, an interactive we
     ```
 3. Open `index.html` in any modern web browser.
 
+## Stretch Goals 
+- Category Selection: Allow users to choose different categories for the questions.
+- Setting Difficulty Level: Enable users to select the difficulty level (easy, medium, hard).
+- Generating Questions from API Call: Fetch dynamic questions from an external API to enhance variability.
+
 ## 🤝 Contributions
 Contributions are welcome! Feel free to fork the repository, raise issues, or submit pull requests. Let's make this game more fun and engaging!
 
